@@ -1,10 +1,11 @@
 import math
+from enum import Enum
+from set_CMV import set_CMV
 
 # CONSTANT
 PI = math.pi
 
 # TYPE DECLARATIONS
-from enum import Enum
 class CONNECTORS(Enum):
     NOTUSED = 777
     ORR = 778   # Assigned automatically as 1 + previous value
@@ -73,9 +74,36 @@ LAUNCH = bool
 
 
 # Function you must write
+def handle_input():
+    pass
+
+def set_PUM():
+    """
+        PUM[i, j] = CMV[i] <LCM[i, j]> CMV[j]
+        NOTUSED -> True
+        Note that the LCM is symmetric, i.e. LCM[i,j]=LCM[j,i] for all i and j.
+    """
+    pass
+
+
+def set_FUV():
+    """
+        FUV[i] = True of PUV[i] is False or all elements in PUM row i are True
+    """
+    pass
+
+def set_LAUNCH():
+    """
+        True if all elements of FUV are True
+    """
+    pass
+
+
 def DECIDE():
-    print("hello from DECIDE")
-    pass  # Implementation you must write
+    handle_input()
+    set_CMV()
+    set_PUM()
+    set_FUV()
 
 def main():
     DECIDE()
