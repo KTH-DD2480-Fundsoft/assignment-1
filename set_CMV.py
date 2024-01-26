@@ -15,7 +15,7 @@ def set_CMV():
         descriptive_name_of_returned_value : (`int`)
             Description on what is returned
     """
-    set_CMV_0()
+    set_CMV_4()
     pass
 
 def set_CMV_0():
@@ -31,7 +31,7 @@ def set_CMV_3():
 	pass
 
 def set_CMV_4():
-	pass
+	raise NotImplementedError("set_CMV_4 is not yet implemented")
 
 def set_CMV_5():
 	pass
