@@ -1,10 +1,10 @@
 import json
-import os
 import sys
 from enum import Enum
+from numpy import array, float64
+from numpy.typing import NDArray
 from typing import List, Tuple, TypedDict
 from set_CMV import set_CMV
-
 
 NUMBER_OF_CONDITIONS = 15
 
@@ -38,11 +38,43 @@ class Parameters(TypedDict):
     radius2   : float
     area2     : float
 
+def print_help():
+    print('''INTERCEPTOR MISSILE LAUNCH DECISION PROGRAM "DECIDE"
+USAGE: python3 decide.py input_data.json 
+JSON FORMAT:
+{
+    "numpoints" : <INT>,
+    "datapoints" : <[[FLOAT,FLOAT]]>,
+    "parameters" : {
+        "LENGTH1"   : <FLOAT>,
+        "RADIUS1"   : <FLOAT>,
+        "EPSILON"   : <FLOAT>,
+        "AREA1"     : <FLOAT>,
+        "QPTS"      : <INT>,
+        "QUADS"     : <INT>,
+        "DIST"      : <FLOAT>,
+        "NPTS"      : <INT>,
+        "KPTS"      : <INT>,
+        "APTS"      : <INT>,
+        "BPTS"      : <INT>,
+        "CPTS"      : <INT>,
+        "DPTS"      : <INT>,
+        "EPTS"      : <INT>,
+        "FPTS"      : <INT>,
+        "GPTS"      : <INT>,
+        "LENGTH2"   : <FLOAT>,
+        "RADIUS2"   : <FLOAT>,
+        "AREA2"     : <FLOAT>,
+    },
+    "LCM" : <[[STRING ("ANDD" | "ORR" | "NOTUSED")]]>,
+    "PUV" : <[BOOLEAN]>
+}  
+          ''')
 
 
 def handle_input() ->  \
            Tuple[ int
-                , List[Tuple[float,float]]
+                , List[NDArray[float64]]
                 , Parameters
                 , List[List[CONNECTORS]]
                 , List[bool] ]:
@@ -61,47 +93,77 @@ def handle_input() ->  \
         5. Preliminary unlocking vector
 
     ''' 
-   
-    # Check if we got exactly one argument
-    assert len(sys.argv) == 2 
-
-    # Check if the file exists
-    file_path = sys.argv[1]
+    try: 
+        # Check if we got exactly one argument
+        if len(sys.argv) > 2:
+            raise ValueError("Too many arguments.")
+        if len(sys.argv) < 2:
+            raise ValueError("Too few arguments.")
     
-    assert os.path.isfile(file_path)
-
-    with open(file_path) as file_descriptor: 
-        # Parse the json 
-        data = json.load(file_descriptor)
-   
-    num_points = data['numpoints']
-    datapoints = [(l[0],l[1]) for l in data['datapoints']]
-    
-    assert len(datapoints) == num_points
-
-    parameters = data['parameters'] 
-    
-    # check that all parameters are present
-    params = ["LENGTH1", "RADIUS1", "EPSILON",
-              "AREA1", "QPTS", "QUADS", "DIST",
-              "NPTS", "KPTS", "APTS", "BPTS",
-              "CPTS", "DPTS", "EPTS", "FPTS",
-              "GPTS", "LENGTH2", "RADIUS2", "AREA2"  ]
-    assert len(params) == len(parameters)
-    assert all([key in parameters for key in params]) 
+        file_path = sys.argv[1]
         
+        with open(file_path) as file_descriptor: 
+            # Parse the json 
+            data = json.load(file_descriptor)
+       
+        num_points = int(data['numpoints'])
+
+        datapoints = [array((float(l[0]),float(l[1]))) for l in data['datapoints']]
+        
+        if len(datapoints) != num_points:
+            raise ValueError("Given number of datapoints does not match given ")
     
-    # extract LCM and PUV. And check that they are of correct size
-    lcm = [[CONNECTORS(e) for e in row] for row in data['LCM']] 
-    puv = data['PUV']
+        parameters = data['parameters'] 
+        
+        # check that all parameters are present and that they are of 
+        # correct type.
+        params = [("LENGTH1",float), ("RADIUS1",float), ("EPSILON",float),
+                  ("AREA1",float), ("QPTS",int), ("QUADS",int), ("DIST",float),
+                  ("NPTS",int), ("KPTS",int), ("APTS",int), ("BPTS",int),
+                  ("CPTS",int), ("DPTS",int), ("EPTS",int), ("FPTS",int),
+                  ("GPTS",int), ("LENGTH2",float), ("RADIUS2",float), ("AREA2",float)  ]
+        if len(params) > len(parameters):
+            raise ValueError("Unknown parameters in " + file_path)
+        if len(params) < len(parameters):
+            raise ValueError("Missing parameters in " + file_path)
+        if not all([key in parameters and isinstance(parameters[key],ty) for key,ty in params]): 
+            raise ValueError("Unknown or malformed parameters in " + file_path)
+            
+       
+        # Converter from json strings to CONNECTORS Enum
+        def match_enum(s : str) -> CONNECTORS:
+            if s == "NOTUSED": return CONNECTORS(777)
+            elif s == "ORR": return CONNECTORS(778)
+            elif s == "ANDD": return CONNECTORS(779)
+            else: raise ValueError('Invalid LCM value "' + s + '"')
+        
+        # extract LCM and PUV. And check that they are of correct size
+        lcm = [[match_enum(e) for e in row] for row in data['LCM']] 
+        puv = [bool(b) for b in data['PUV']]
+    
+        if len(lcm)    != NUMBER_OF_CONDITIONS:
+            raise ValueError("LCM is of wrong size.")
+        if len(lcm[0]) != NUMBER_OF_CONDITIONS:
+            raise ValueError("LCM is of wrong size.")
+        if len(puv)    != NUMBER_OF_CONDITIONS:
+            raise ValueError("PUV is of wrong size.")
+    
 
-    assert len(lcm)    == NUMBER_OF_CONDITIONS
-    assert len(lcm[0]) == NUMBER_OF_CONDITIONS
-    assert len(puv)    == NUMBER_OF_CONDITIONS
-
-    return (num_points,datapoints,parameters,lcm,puv) 
-
-
+        return (num_points,datapoints,parameters,lcm,puv) 
+    
+    except ValueError as e:
+        print("Invalid input: " + str(e))
+        print_help()
+        exit(1) 
+    except OSError as e:
+        print("Error reading input file: " + str(e))
+        print_help()
+        exit(1)
+    except Exception as e: 
+        print("Unexpected exception: " + str(e))
+        print_help()
+        exit(1)
+    
 def set_PUM():
     """
         PUM[i, j] = CMV[i] <LCM[i, j]> CMV[j]
@@ -127,11 +189,11 @@ def set_LAUNCH():
 def DECIDE():
     parsed_input = handle_input()
     num_points  : int                      = parsed_input[0]
-    data_points : List[Tuple[float,float]] = parsed_input[1]
+    data_points : List[NDArray[float64]]   = parsed_input[1]
     parameters  : Parameters               = parsed_input[2]
     lcm         : List[List[CONNECTORS]]   = parsed_input[3]
     puv         : List[bool]               = parsed_input[4]
-    print(data_points)
+    print(parsed_input)
     set_CMV()
     set_PUM()
     set_FUV()
