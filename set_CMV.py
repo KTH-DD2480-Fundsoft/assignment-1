@@ -75,8 +75,33 @@ def set_CMV_9():
 def set_CMV_10():
     pass
 
-def set_CMV_11():
-    pass
+def set_CMV_11(num_points, datapoints, parameters):
+    """
+        Set CMV_11 based on LIC 11
+        
+        Parameters
+        ----------
+       num_points : (int)
+            Total number of data points
+        datapoints : List[Tuple[float, float]]
+            List of tuples 
+        parameters : (Dict)
+            Contains all the LIC and CMV parameters 
+
+        Returns Bool depending on if LIC 11 is fulfilled
+
+    """
+    gpts = parameters["gpts"]
+
+    if num_points < 3:
+        return False
+    
+    assert (1<= gpts and gpts <= num_points-2), "CMV_11: G_PTS value not between 1 and NUMPOINTS-2"
+
+    for i in range(num_points-gpts-1):
+        if datapoints[i+gpts+1][0]-datapoints[i][0] < 0:
+            return True
+    return False
 
 def set_CMV_12():
     pass
