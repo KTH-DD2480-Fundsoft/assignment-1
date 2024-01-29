@@ -17,7 +17,7 @@ def set_CMV():
         descriptive_name_of_returned_value : (`int`)
             Description on what is returned
     """
-    set_CMV_0()
+    # set_CMV_0()
     pass
 
 def set_CMV_0(num_points, datapoints, parameters):
@@ -57,8 +57,8 @@ def set_CMV_3():
 def set_CMV_4():
     pass
 
-def set_CMV_5():
-    pass
+def set_CMV_5(num_points, data_points, parameters):
+    raise NotImplementedError("Need implement CMV logic 5 in set_CMV_5 ")
 
 def set_CMV_6():
     pass
