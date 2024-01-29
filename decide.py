@@ -148,7 +148,7 @@ def compute_cmv(puv, lic_parameters, nr_of_data_points, points):
         cmv : (`vector`)
             The CMV.
     """
-    
+
     cmv = [True] * NUMBER_OF_CONDITIONS
     
     # cmv[0] = evaluate_lic_0(lic_parameters[0], nr_of_data_points, points)
@@ -216,7 +216,7 @@ def does_pum_not_contain_false_element(lcm, cmv, puv):
                     truth_value = cmv[i] and cmv[j]
                     if truth_value == False:
                         return False
-                else:
+                elif lcm[i][j] == ORR:
                     truth_value = cmv[i] or cmv[j]
                     if truth_value == False:
                         return False
@@ -237,3 +237,6 @@ def main():
         print("YES")
     else:
         print("NO")
+
+if __name__ == "__main__":
+    main()
