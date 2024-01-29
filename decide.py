@@ -148,9 +148,8 @@ def compute_cmv(puv, lic_parameters, nr_of_data_points, points):
         cmv : (`vector`)
             The CMV.
     """
-
-    # TODO: Remove hardcoding of number of elements?
-    cmv = [True] * 15
+    
+    cmv = [True] * NUMBER_OF_CONDITIONS
     
     # cmv[0] = evaluate_lic_0(lic_parameters[0], nr_of_data_points, points)
     
