@@ -99,14 +99,120 @@ def set_LAUNCH():
     pass
 
 
-def DECIDE():
-    handle_input()
-    set_CMV()
-    set_PUM()
-    set_FUV()
+def decide(puv, lcm, lic_parameters, nr_of_data_points, data_points ):
+    cmv = compute_cmv(puv, lic_parameters, nr_of_data_points, data_points)
+    return does_pum_not_contain_false_element(lcm, cmv)
+
+def compute_cmv(puv, lic_parameters, nr_of_data_points, points):
+    """
+        Computes the CMV by evaluating each LIC.
+
+        Parameters
+        ----------
+        puv : (`vector`)
+            The PUV.
+        lic_parameters : (`?`)
+            The LIC parameters.
+        nr_of_data_points : (`int`)
+            The number of data points.
+        points : (`list[tuple[int?, int?]]`)
+            The data points.
+            
+        Returns
+        ----------
+        cmv : (`vector`)
+            The CMV.
+    """
+
+    # TODO: Remove hardcoding of number of elements?
+    cmv = [True] * 15
+    
+    # cmv[0] = evaluate_lic_0(lic_parameters[0], nr_of_data_points, points)
+    
+    # cmv[1] = evaluate_lic_1(lic_parameters[1], nr_of_data_points, points)
+    
+    # cmv[2] = evaluate_lic_2(lic_parameters[2], nr_of_data_points, points)
+    
+    # cmv[3] = evaluate_lic_3(lic_parameters[3], nr_of_data_points, points)
+    
+    # cmv[4] = evaluate_lic_4(lic_parameters[4], nr_of_data_points, points)
+    
+    # cmv[5] = evaluate_lic_5(lic_parameters[5], nr_of_data_points, points)
+    
+    # cmv[6] = evaluate_lic_6(lic_parameters[6], nr_of_data_points, points)
+    
+    # cmv[7] = evaluate_lic_7(lic_parameters[7], nr_of_data_points, points)
+    
+    # cmv[8] = evaluate_lic_8(lic_parameters[8], nr_of_data_points, points)
+    
+    # cmv[9] = evaluate_lic_9(lic_parameters[9], nr_of_data_points, points)
+    
+    # cmv[10] = evaluate_lic_10(lic_parameters[10], nr_of_data_points, points)
+    
+    # cmv[11] = evaluate_lic_11(lic_parameters[11], nr_of_data_points, points)
+    
+    # cmv[12] = evaluate_lic_12(lic_parameters[12], nr_of_data_points, points)
+    
+    # cmv[13] = evaluate_lic_13(lic_parameters[13], nr_of_data_points, points)
+    
+    # cmv[14] = evaluate_lic_14(lic_parameters[14], nr_of_data_points, points)
+
+    pass
+
+
+def does_pum_not_contain_false_element(lcm, cmv, puv):
+    """
+        Computes the truth values of the PUM and checks if there is a meaningful
+        false element in the PUM which will result in a false element in the FUV,
+        and consequently prevent a launch.
+
+
+        Parameters
+        ----------
+        lcm : (`matrix`)
+            The LCM.
+        cmv : (`vector`)
+            The CMV.
+        puv : (`vector`)
+            The PUV.
+
+        Returns
+        ----------
+        truth_value : (`Bool`)
+            True if PUM does not contain a false element which will prevent a launch,
+            otherwise False and launch should not occur.
+    """
+    """ Sort of pseudo for now, just to convey the idea.
+    nr_of_rows, nr_of_cols = lcm.shape
+    for i in range(nr_of_rows):
+        # TODO: Potential out of bounds in "puv[i]"?
+        if puv[i]:
+            for j in range(nr_of_cols):
+                if lcm[i][j] == ANDD:
+                    truth_value = cmv[i] and cmv[j]
+                    if truth_value == False:
+                        return False
+                else:
+                    truth_value = cmv[i] or cmv[j]
+                    if truth_value == False:
+                        return False
+    return True
+    """
+    pass
+
 
 def main():
-    DECIDE()
+    parsed_input = handle_input()
+    num_points  : int                      = parsed_input[0]
+    data_points : List[Tuple[float,float]] = parsed_input[1]
+    lic_parameters  : Parameters           = parsed_input[2]
+    lcm         : List[List[CONNECTORS]]   = parsed_input[3]
+    puv         : List[bool]               = parsed_input[4]
+    should_launch = decide(puv, lcm, lic_parameters, nr_of_data_points, data_points)
+    if should_launch:
+        print("YES")
+    else:
+        print("NO")
 
 if __name__ == "__main__":
     main()
