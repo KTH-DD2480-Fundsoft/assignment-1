@@ -3,7 +3,7 @@ import numpy as np
 def set_CMV():
     """
         A list of the 15 Launch Interceptor Conditions (LIC)
-		
+        
 
         Parameters
         ----------
@@ -20,67 +20,69 @@ def set_CMV():
     set_CMV_0()
     pass
 
-def set_CMV_0(LENGTH1, x, y):
+def set_CMV_0(num_points, datapoints, parameters):
     """
-        Set CMV_0 based on LIC 1
-		
-		Parameters
+        Set CMV_0 based on LIC 0
+        
+        Parameters
         ----------
-        LENGTH1 : (int/float)
-            Maximum length between a set of two consequative points.
-        x       : (list of ints/floats)
-            List of x coordinates in the trajectory plane
-		y       : (list of ints/floats)
-            List of y coordinates in the trajectory plane
+        num_points : (int)
+            Total number of data points
+        datapoints : List[Tuple[float, float]]
+            List of tuples 
+        parameters : (Dict)
+            Contains all the LIC and CMV parameters 
+            
+        Returns 
+        ----------
+        Bool 
+            True if LIC 0 is fulfilled, else False    
+    """
+    length1 = parameters["length1"]
 
-        Returns Bool depending on if LIC 1 is fulfilled
-	"""
-    assert (len(x)==len(y)), "Coordinate vectors x and y should be of same length"
-    assert (isinstance(LENGTH1, (float, int)) and LENGTH1 >= 0), "Parameter LENGTH1 should be and int or float with value greater or equal to 0"
-	
-    for i in range(len(x)-1):
-        if (np.sqrt(np.square(x[i+1]-x[i])+np.square(y[i+1]-y[i])) > LENGTH1):
-            return True	
+    for i in range(len(datapoints)-1):
+        if (np.sqrt(np.square(datapoints[i+1][0]-datapoints[i][0])+np.square(datapoints[i+1][1]-datapoints[i][1])) > length1):
+            return True    
     return False
 
 def set_CMV_1():
-	pass
+    pass
 
 def set_CMV_2():
-	pass
+    pass
 
 def set_CMV_3():
-	pass
+    pass
 
 def set_CMV_4():
-	pass
+    pass
 
 def set_CMV_5():
-	pass
+    pass
 
 def set_CMV_6():
-	pass
+    pass
 
 def set_CMV_7():
-	pass
+    pass
 
 def set_CMV_8():
-	pass
+    pass
 
 def set_CMV_9():
-	pass
+    pass
 
 def set_CMV_10():
-	pass
+    pass
 
 def set_CMV_11():
-	pass
+    pass
 
 def set_CMV_12():
-	pass
+    pass
 
 def set_CMV_13():
-	pass
+    pass
 
 def set_CMV_14():
-	pass
+    pass
