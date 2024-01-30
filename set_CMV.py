@@ -131,8 +131,48 @@ def set_CMV_7():
 def set_CMV_8():
     pass
 
-def set_CMV_9():
-    raise NotImplementedError("Need to implement set_CMV_9()")
+def set_CMV_9(num_points, datapoints, parameters):
+    cpts = parameters['cpts']
+    dpts = parameters['dpts']
+    epsilon = parameters['epsilon']
+
+    if num_points < 5:
+          return False # "When NUMPOINTS < 5, the condition is not met"
+
+    if not (1 <= cpts and 1 <= dpts):
+          return False # conditions not met for cpts and dpts
+    if not (cpts + dpts <= num_points - 3):
+          return False # conditions not met for cpts and dpts
+
+    # going through each possible set of three points and checking angle
+    for i in range(0, num_points - cpts - dpts - 2):
+          # current three points, separated by cpts and dpts points respectively
+          first_point = datapoints[i]
+          vertex_point = datapoints[i+cpts+1]
+          last_point = datapoints[i+cpts+1+dpts+1]
+
+          if (first_point == vertex_point or last_point == vertex_point):
+                return False # "first_point and or last_point can not coincide with vertex_point"
+          else:
+                dist_vertex_to_first = np.sqrt(
+                      (first_point[0]-vertex_point[0])**2 +
+                      (first_point[1]-vertex_point[1])**2
+                )
+                dist_vertex_to_last = np.sqrt(
+                      (last_point[0]-vertex_point[0])**2 +
+                      (last_point[1]-vertex_point[1])**2
+                )
+                dist_first_to_last = np.sqrt(
+                      (last_point[0]-first_point[0])**2 +
+                      (last_point[1]-first_point[1])**2
+                )
+                # C = arccos((a^2 + b^2 - c^2) / (2ab))
+                angle = np.arccos((dist_vertex_to_first**2 + dist_vertex_to_last**2 - dist_first_to_last**2) / (2 * dist_vertex_to_first * dist_vertex_to_last) )
+
+                if ((angle < np.pi - epsilon) or (angle > np.pi + epsilon)):
+                      # angle p1p2p3 can not be in the range PI ± epsilon
+                      return True
+    return False
 
 def set_CMV_10(num_points, datapoints, parameters):
     """

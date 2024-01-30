@@ -113,22 +113,64 @@ class TestDecide(unittest.TestCase):
 
 
     def test_cmv_9(self):
-        # Define test parameters (should probably be moved to JSON test file later)
-        raise NotImplementedError("Need to implement test_cmv_9")
-        # parameters = {}
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 3,
+            'epsilon' : np.pi/4
+        }
 
-        # num_points = 10
-        # num_points_less = 1
+        datapoints = [(0,0),(1,0),(2,0)]
+        num_points = len(datapoints)
 
-        # datapoints_1 = [(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0)]
-        # datapoints_2 = [(0,0),(3,0),(5,0),(6,0),(1,0),(2,0),(8,0),(9,0),(10,0),(0,0)]
-        # datapoints_3 = [(-1,0),(-2,0),(-3,0),(0,0),(1,0),(2,0),(0,0),(0,0),(0,0),(0,0)]
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "num_points is less than 5, not satisfactory")
 
-        # # Test computational logic in set_CMV_11 function
-        # self.assertFalse(set_CMV_9(num_points, datapoints_1, parameters), "test_cmv_11: x vector is only increasing")
-        # self.assertTrue(set_CMV_9( num_points, datapoints_2, parameters), "test_cmv_11: x vector includes correct set of datapoints")
-        # self.assertTrue(set_CMV_9( num_points, datapoints_3, parameters), "test_cmv_11: x vector includes correct set of datapoints")
-        # self.assertFalse(set_CMV_9(num_points_less, datapoints_2, parameters), "test_cmv_11: NUMPOINTS less than 3")
+    def test_cmv_9(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 3,
+            'epsilon' : 0
+        }
+
+        datapoints = [(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0)]
+        num_points = len(datapoints)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "All points are along a line Y=0, angle is always pi")
+    
+    def test_cmv_9(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 3,
+            'dpts' : 4,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints = [(-1,0), (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(4,9),(10,0)]
+        num_points = len(datapoints)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "One set have an angle of exactly PI/2, the rest an angle of PI not valid")
+
+    def test_cmv_9(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 3,
+            'dpts' : 4,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [(-1,0), (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(3,9),(10,0)]
+        datapoints_1 = [(-1,0), (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(5,9),(10,0)]
+        num_points = 12
+
+        # Test computational logic in set_CMV_9 function
+        self.assertTrue(set_CMV_9(num_points, datapoints_0, parameters), "One set have an angle slightly less than PI/2, is outside forbidden range PI±PI/2")
+        self.assertFalse(set_CMV_9(num_points, datapoints_1, parameters), "All angles are PI exept on that is slightly greater than PI/2, still in forbidden range PI±PI/2")
+        
+
 
 if __name__ == '__main__':
     unittest.main()
