@@ -1,3 +1,4 @@
+import numpy as np
 import unittest
 from set_CMV import *
 
@@ -70,8 +71,34 @@ class TestDecide(unittest.TestCase):
         self.assertTrue(set_CMV_11( num_points, datapoints_3, parameters), "test_cmv_11: x vector includes correct set of datapoints")
         self.assertFalse(set_CMV_11(num_points_less, datapoints_2, parameters), "test_cmv_11: NUMPOINTS less than 3")
 
-    
- 
+    def test_cmv_12(self):
+        num_points = 11    
+        parameters = { "KPTS" : 3 
+                     , "LENGTH1" : 10.0 
+                     , "LENGTH2" : 1.0 }
+        data_points = [ (0.75,0.0), (1.0,0.0), (1.25,0.0), 
+                        (1.5,0.0), (5.5,0.0), (3.0,0.0),  
+                        (4.0,0.0), (5.0,0.0), (6.0,0.0), 
+                        (7.0,0.0), (15.0,0.0) ]
+        data_points = [np.array(e) for e in data_points]
+        
+        self.assertTrue(set_CMV_12(num_points,data_points,parameters))
+        data_points[10] = np.array((8.0,0.0))
+        self.assertFalse(set_CMV_12(num_points,data_points,parameters))
+
+        num_points = 11    
+        parameters = { "KPTS" : 3 
+                     , "LENGTH1" : 10.0 
+                     , "LENGTH2" : 1.0 }
+        data_points = [ (1.0,0.0), (2.0,0.0), (3.0,0.0), 
+                        (4.0,0.0), (5.0,0.0), (6.0,0.0),  
+                        (7.0,0.0), (8.0,0.0), (9.0,0.0), 
+                        (10.0,0.0), (18.0,0.0) ]
+        data_points = [np.array(e) for e in data_points]
+        self.assertFalse(set_CMV_12(num_points,data_points,parameters))
+        data_points[0] = np.array((4.5,0))
+        self.assertTrue(set_CMV_12(num_points,data_points,parameters))
+
 
 
 if __name__ == '__main__':
