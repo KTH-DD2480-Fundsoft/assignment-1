@@ -58,7 +58,10 @@ def set_CMV_4():
     pass
 
 def set_CMV_5(num_points, data_points, parameters):
-    raise NotImplementedError("Need implement CMV logic 5 in set_CMV_5 ")
+    for i in range(0, num_points-1):
+        if (data_points[i][0] > data_points[i+1][0]):
+            return True # found two consecutive points such that X[i] > X[+1]
+    return False # found no satisfactory points
 
 def set_CMV_6():
     pass
