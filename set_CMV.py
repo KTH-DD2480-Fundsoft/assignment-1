@@ -132,7 +132,7 @@ def set_CMV_8():
     pass
 
 def set_CMV_9():
-    pass
+    raise NotImplementedError("Need to implement set_CMV_9()")
 
 def set_CMV_10(num_points, datapoints, parameters):
     """
