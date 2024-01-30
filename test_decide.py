@@ -1,6 +1,6 @@
+import set_CMV
 import unittest
 from set_CMV import *
-
 
 class TestDecide(unittest.TestCase):
     def test_cmv_0(self):
@@ -18,6 +18,86 @@ class TestDecide(unittest.TestCase):
         self.assertFalse(set_CMV_0(num_points, datapoints_1, parameters), "CMV_0: Maximum distance is smaller than parameter LENGTH1")
         self.assertTrue(set_CMV_0(num_points, datapoints_2, parameters), "CMV_0: Maximum distance is larger than parameter LENGTH1")
         self.assertTrue(set_CMV_0(num_points, datapoints_3, parameters), "CMV_0: Maximum distance is larger than parameter LENGTH1")
+
+    def test_cmv_3(self): 
+        ''' Tests the function set_CMV_3 which calculates the 
+            LIC3 condition. This function passes two false instances
+            (where there exists no triangle in any consecutive data points 
+            of area greater than AREA1) and two true instances (where 
+            there exists a triangle in consecutive datapoints where the 
+            area is greater than AREA1).'''
+
+        num_points = 9
+        
+        # TRUE case
+        parameters_true1 = { 
+            "AREA1" : 7 
+        } 
+
+        data_points_true1 = [ 
+            (-1.0,-1.0),(3.0,3.0), (3.0,-1.0), 
+            (0.0,-1.0), (1.0,-1.0), (2.0,-1.0), 
+            (2.0,2.0), (1.0,1.0), (0.0,0.0),
+        ]
+        # TRUE case
+        parameters_true2 = { 
+            "AREA1" : 40 
+        } 
+
+        data_points_true2 = [ 
+            (0.0,0.0), (10.0,10.0), (10.0,0.0), 
+            (-1.0,1.0), (0.0,1.0), (1.0,1.0), 
+            (-1.0,-1.0), (0.0,-1.0), (1.0,-1.0) 
+        ]
+        # FALSE case
+        parameters_false1 = { 
+            "AREA1" : 7 
+        } 
+
+        data_points_false1 = [ 
+            (-1.0,1.0), (0.0,1.0), (1.0,1.0), 
+            (-1.0,0.0), (0.0,0.0), (1.0,0.0), 
+            (-1.0,-1.0), (0.0,-1.0), (1.0,-1.0) 
+        ]
+        # FALSE case
+        parameters_false2 = { 
+            "AREA1" : 10 
+        } 
+
+        data_points_false2 = [ 
+            (-1.0,-1.0), (1.0,1.0), (0.0,0.0), 
+            (0.0,-1.0), (1.0,-1.0), (2.0,-1.0), 
+            (2.0,2.0), (3.0,3.0), (3.0,-1.0) 
+        ]
+
+        self.assertTrue(
+            set_CMV.set_CMV_3(
+                num_points,
+                data_points_true1,
+                parameters_true1 
+            )
+        )
+        self.assertTrue(
+            set_CMV.set_CMV_3(
+                num_points,
+                data_points_true2,
+                parameters_true2 
+            )
+        )
+        self.assertFalse(
+            set_CMV.set_CMV_3(
+                num_points,
+                data_points_false1,
+                parameters_false1 
+            )
+        )
+        self.assertFalse(
+            set_CMV.set_CMV_3(
+                num_points,
+                data_points_false2,
+                parameters_false2 
+            )
+        )
     
     def test_cmv_10(self):
         # Define test parameters (should probably be moved to JSON test file later)
@@ -99,6 +179,61 @@ class TestDecide(unittest.TestCase):
         self.assertFalse(set_CMV_2(len(datapoints_2), datapoints_2, parameters_2))
         self.assertFalse(set_CMV_2(len(datapoints_3), datapoints_3, parameters_3))
         self.assertTrue(set_CMV_2(len(datapoints_4), datapoints_4, parameters_4))
+
+    def test_cmv_5(self):
+        # Define test parameters
+        parameters = {}
+
+        num_points = 5
+
+        datapoints_1 = [(0,0),(1,1),(2,2),(3,3),(4,4)]
+        datapoints_2 = [(0,0),(0,4),(0,0),(1,0),(0,0)]
+        datapoints_3 = [(-1,0),(-3,0),(0,0),(1,0),(3,0)]
+        datapoints_4 = [(-1,0),(-0,0),(0,0),(1,0),(3,0)]
+
+        # Test computational logic in set_CMV_5 function
+        self.assertFalse(set_CMV_5(num_points, datapoints_1, parameters), "CMV_5: No X[i] > X[i+1]")
+        self.assertTrue(set_CMV_5(num_points, datapoints_2, parameters), "CMV_5: Last two points satisifes X[i] > X[i+1]")
+        self.assertTrue(set_CMV_5(num_points, datapoints_3, parameters), "CMV_5: Points with negative x-values satisifes X[i] > X[i+1]")
+        self.assertFalse(set_CMV_5(num_points, datapoints_4, parameters), "CMV_5: Edge case -0, no satisfactory consecutive points")
+
+    def test_cmv_1_equal_points(self):
+        """
+        Given a set of three points where two are equal and where the
+        euclidean distance between the differing points is 2, 
+        the points can be encompassed by a circle of radius 1.
+        """
+        parameters = {}
+        parameters["radius1"] = 1
+        datapoints = [(0.0, 0.0), (0.0, 0.0), (0.0, 2.0)]
+        num_points = len(datapoints)
+        self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
+
+    def test_cmv_1_collinear(self):
+        """
+        Given a set of three collinear points, the points should not 
+        be able to be contained by a circle.
+        """
+        parameters = {}
+        parameters["radius1"] = 0.5
+        datapoints = [(1.0, 1.0), (2.0, 2.0), (3.0, 3.0)]
+        num_points = len(datapoints)
+        self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
+
+    def test_cmv_1(self):
+        """
+        The points (1, 0), (-1, 0), and (0, 1) should be contained a by a circle
+        with radius 1. set_CMV_1 should therefore be true with RADIUS set to 0.5
+        but not when RADIUS is set to 1. 
+        """
+        parameters = {}
+        parameters["radius1"] = 0.5
+        datapoints = [(0.0, 0.0), (1.0, 0.0), (-1.0, 0.0), (0.0, 1.0), (0.0, 0.0)]
+        num_points = len(datapoints)
+
+        self.assertTrue(set_CMV_1(num_points, datapoints, parameters))
+        parameters["radius1"] = 1
+        self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
 
 if __name__ == '__main__':
     unittest.main()
