@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 def set_CMV():
     """
@@ -48,8 +49,25 @@ def set_CMV_0(num_points, datapoints, parameters):
 def set_CMV_1():
     pass
 
-def set_CMV_2():
-    pass
+def set_CMV_2(num_points, datapoints, parameters):
+    epsilon = parameters["epsilon"]
+    angle_cond = False
+    for i in range(num_points-2):
+        vertex = datapoints[i+1]
+        
+        # Cannot form an angle if the first or third point is equal to the vertex
+        if datapoints[i] == vertex or datapoints[i+2] == vertex:
+            continue
+    
+        first_ray = np.array(vertex) - np.array(datapoints[i])
+        second_ray = np.array(vertex) - np.array(datapoints[i+2])
+        
+		# Taken from https://stackoverflow.com/questions/2827393/angles-between-two-n-dimensional-vectors-in-python
+        angle = math.atan2(np.linalg.det([second_ray, first_ray]), np.dot(second_ray, first_ray))
+        if angle < np.pi - epsilon or angle > np.pi + epsilon:
+            angle_cond = True
+            break
+    return angle_cond
 
 def set_CMV_3():
     pass

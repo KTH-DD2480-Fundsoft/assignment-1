@@ -70,9 +70,35 @@ class TestDecide(unittest.TestCase):
         self.assertTrue(set_CMV_11( num_points, datapoints_3, parameters), "test_cmv_11: x vector includes correct set of datapoints")
         self.assertFalse(set_CMV_11(num_points_less, datapoints_2, parameters), "test_cmv_11: NUMPOINTS less than 3")
 
-    
- 
+    def test_cmv_2(self):
+        """ 
+        Tests the behavior of the set_cmv_2 function which should return true iff there exists
+        three consecutive points s.t. the angle that they create is < PI - EPSILON or > PI - EPSILON
+        """        
+        # Creates an angle of 0.5236
+        # 0.5236 < pi - 2
+        datapoints_1 = [(-2.0, -1.0), (1.0, np.sqrt(3)), (0.0, 0.0), (np.sqrt(3), 1.0), (-3.0, -3.0)]
+        parameters_1 = {"epsilon" : 2}
 
+        # Creates an angle of −1.5708
+        # -1.5708 !< pi - 5
+        datapoints_2 = [(1.0, 1.0), (0.0, 0.0), (1.0, -1.0)]
+        parameters_2 = {"epsilon" : 5}
+
+        # Creates an angle of pi
+        # pi !> pi + 0
+        datapoints_3 = [(-1.0, -1.0), (0.0, 0.0), (1.0, 1.0)]
+        parameters_3 = {"epsilon" : 0}
+
+        # Creates an angle of 2.3562
+        # 2.3562 < pi - 0.1
+        datapoints_4 = [(-1.0, -2.0), (-2.0, 0.0), (0.0, 0.0), (1.0, 1.0), (-22.3, 22.0)]
+        parameters_4 = {"epsilon" : 0.1}
+        
+        self.assertTrue(set_CMV_2(len(datapoints_1), datapoints_1, parameters_1))
+        self.assertFalse(set_CMV_2(len(datapoints_2), datapoints_2, parameters_2))
+        self.assertFalse(set_CMV_2(len(datapoints_3), datapoints_3, parameters_3))
+        self.assertTrue(set_CMV_2(len(datapoints_4), datapoints_4, parameters_4))
 
 if __name__ == '__main__':
     unittest.main()
