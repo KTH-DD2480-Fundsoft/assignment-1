@@ -71,6 +71,27 @@ class TestDecide(unittest.TestCase):
 
     
  
+    def test_cmv_14(self):
+        num_points = 8    
+        parameters = { "EPTS" : 2
+                     , "FPTS" : 2 
+                     , "AREA1" : 4.0 
+                     , "AREA2" : 1.1 }
+        data_points = [ (0.0,0.0), (1.0,0.0), (2.0,0.0), 
+                        (3.0,0.0), (3.0,1.0), (3.0,2.0),  
+                        (3.0,3.0), (1.0,1.0)]
+        data_points = [np.array(e) for e in data_points]
+        self.assertTrue(set_CMV_14(num_points,data_points,parameters))
+        data_points = [ (0.0,0.0), (1.0,0.0), (2.0,0.0), 
+                        (3.0,0.0), (3.0,1.0), (3.0,2.0),  
+                        (3.0,3.0), (10.0,10.0)]
+        data_points = [np.array(e) for e in data_points]
+        self.assertFalse(set_CMV_14(num_points,data_points,parameters))
+        data_points = [ (0.0,0.0), (1.0,0.0), (2.0,0.0), 
+                        (3.0,0.0), (3.0,0.5), (3.0,1.0),  
+                        (3.0,1.5), (1.0,1.0)]
+        data_points = [np.array(e) for e in data_points]
+        self.assertFalse(set_CMV_14(num_points,data_points,parameters))
 
 
     def test_cmv_1_equal_points(self):
