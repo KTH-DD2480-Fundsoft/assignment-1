@@ -2,7 +2,6 @@ import numpy as np
 import unittest
 from set_CMV import *
 
-
 class TestDecide(unittest.TestCase):
     def test_cmv_0(self):
         # Define test parameters (should probably be moved to JSON test file later)
@@ -99,6 +98,61 @@ class TestDecide(unittest.TestCase):
         data_points[0] = np.array((4.5,0))
         self.assertTrue(set_CMV_12(num_points,data_points,parameters))
 
+    def test_cmv_5(self):
+        # Define test parameters
+        parameters = {}
+
+        num_points = 5
+
+        datapoints_1 = [(0,0),(1,1),(2,2),(3,3),(4,4)]
+        datapoints_2 = [(0,0),(0,4),(0,0),(1,0),(0,0)]
+        datapoints_3 = [(-1,0),(-3,0),(0,0),(1,0),(3,0)]
+        datapoints_4 = [(-1,0),(-0,0),(0,0),(1,0),(3,0)]
+
+        # Test computational logic in set_CMV_5 function
+        self.assertFalse(set_CMV_5(num_points, datapoints_1, parameters), "CMV_5: No X[i] > X[i+1]")
+        self.assertTrue(set_CMV_5(num_points, datapoints_2, parameters), "CMV_5: Last two points satisifes X[i] > X[i+1]")
+        self.assertTrue(set_CMV_5(num_points, datapoints_3, parameters), "CMV_5: Points with negative x-values satisifes X[i] > X[i+1]")
+        self.assertFalse(set_CMV_5(num_points, datapoints_4, parameters), "CMV_5: Edge case -0, no satisfactory consecutive points")
+
+
+    def test_cmv_1_equal_points(self):
+        """
+        Given a set of three points where two are equal and where the
+        euclidean distance between the differing points is 2, 
+        the points can be encompassed by a circle of radius 1.
+        """
+        parameters = {}
+        parameters["radius1"] = 1
+        datapoints = [(0.0, 0.0), (0.0, 0.0), (0.0, 2.0)]
+        num_points = len(datapoints)
+        self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
+
+    def test_cmv_1_collinear(self):
+        """
+        Given a set of three collinear points, the points should not 
+        be able to be contained by a circle.
+        """
+        parameters = {}
+        parameters["radius1"] = 0.5
+        datapoints = [(1.0, 1.0), (2.0, 2.0), (3.0, 3.0)]
+        num_points = len(datapoints)
+        self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
+
+    def test_cmv_1(self):
+        """
+        The points (1, 0), (-1, 0), and (0, 1) should be contained a by a circle
+        with radius 1. set_CMV_1 should therefore be true with RADIUS set to 0.5
+        but not when RADIUS is set to 1. 
+        """
+        parameters = {}
+        parameters["radius1"] = 0.5
+        datapoints = [(0.0, 0.0), (1.0, 0.0), (-1.0, 0.0), (0.0, 1.0), (0.0, 0.0)]
+        num_points = len(datapoints)
+
+        self.assertTrue(set_CMV_1(num_points, datapoints, parameters))
+        parameters["radius1"] = 1
+        self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
 
 
 if __name__ == '__main__':
