@@ -15,7 +15,6 @@ def set_CMV():
         descriptive_name_of_returned_value : (`int`)
             Description on what is returned
     """
-    set_CMV_4()
     pass
 
 def set_CMV_0():
@@ -40,20 +39,20 @@ def set_CMV_4(num_points, data_points, parameters):
         return False # condition impossible
 
     for i in range(0, num_points+1-qpts):
-        occupied_quads = dict()
-		# go through qpts consecutive elements in points counting from element i, check visited quadrants in dictionary occupied_quads
+        occupied_quads = [0, 0, 0, 0]
+		# go through qpts consecutive elements in points counting from element i, check visited quadrants in list occupied_quads
 		
         for j in range(0, qpts):
             (x, y) = data_points[i + j]
             if (x >= 0 and y >= 0):
-                occupied_quads['I'] = True
+                occupied_quads[0] = 1
             elif (x < 0 and y >= 0):
-                occupied_quads['II'] = True
+                occupied_quads[1] = 1
             elif (x < 0 and y < 0):
-                occupied_quads['III'] = True
+                occupied_quads[2] = 1
             else:
-                occupied_quads['IV'] = True
-            if len(occupied_quads) > quads:
+                occupied_quads[3] = 1
+            if sum(occupied_quads) > quads:
 				# more than quads quadrants have been vidited
                 return True # condition met
 			

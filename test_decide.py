@@ -8,51 +8,51 @@ from set_CMV import set_CMV_4
 
 
 
-class TestDecideCMV4(unittest.TestCase):
-    def test_cmv_4_should_return_true(self):
+class TestDecide(unittest.TestCase):
+    def test_cmv_4(self):
         parameters = {
             'qpts' : 4,
             'quads' : 3
         }
         data_points = [(0.1, 0.1), (-0.1, 0.1), (0.1, -0.1), (-0.1, -0.1), (0.1, 0.1)]
         num_points = len(data_points)
-        self.assertTrue(set_CMV_4(num_points, data_points, parameters))
+        self.assertTrue(set_CMV_4(num_points, data_points, parameters), "4 consecutive points occupy 4 quadrants")
 
-    def test_cmv_4_should_return_false(self):
+    def test_cmv_4(self):
         parameters = {
             'qpts' : 4,
             'quads' : 3
         }
         data_points = [(0.1, 0.1), (0.1, -0.1), (0.1, -0.1), (-0.1, 0.1), (0.1, 0.1)]
         num_points = len(data_points)
-        self.assertFalse(set_CMV_4(num_points, data_points, parameters))
+        self.assertFalse(set_CMV_4(num_points, data_points, parameters), "No 4 consecutive points occupy 4 quadrants")
 
-    def test_cmv_4_impossible(self):
+    def test_cmv_4(self):
         parameters = {
             'qpts' : 2,
             'quads' : 3
         }
         data_points = [(0.1, 0.1), (-0.1, 0.1), (0.1, -0.1), (-0.1, -0.1), (0.1, 0.1)]
         num_points = len(data_points)
-        self.assertFalse(set_CMV_4(num_points, data_points, parameters))
+        self.assertFalse(set_CMV_4(num_points, data_points, parameters), "Impossible since quads > qpts")
 
-    def test_cmv_4_last_qpts_points_are_satisfactory(self):
+    def test_cmv_4(self):
         parameters = {
             'qpts' : 3,
             'quads' : 2
         }
         data_points = [(0.1, 0.1), (0.1, -0.1), (0.1, -0.1), (0.1, -0.1), (0.1, 0.1), (-0.1, -0.1)]
         num_points = len(data_points)
-        self.assertTrue(set_CMV_4(num_points, data_points, parameters))
+        self.assertTrue(set_CMV_4(num_points, data_points, parameters), "The qpts last points occupy more than 2 quadrants")
 
-    def test_cmv_4_qpoints_equals_numpoints(self):
+    def test_cmv_4(self):
         data_points = [(0.1, 0.1), (0.1, -0.1), (0.1, -0.1), (0.1, -0.1), (-0.1, 0.1), (-0.1, -0.1)]
         num_points = len(data_points)
         parameters = {
             'qpts' : num_points,
             'quads' : 3
         }
-        self.assertTrue(set_CMV_4(num_points, data_points, parameters))
+        self.assertTrue(set_CMV_4(num_points, data_points, parameters), "qpts = num_points, all 4 quadrants are occupied")
 
 
 if __name__ == '__main__':
