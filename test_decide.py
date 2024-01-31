@@ -207,5 +207,30 @@ class TestDecide(unittest.TestCase):
         parameters["radius1"] = 1
         self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
 
+    def test_cmv_7(self):
+        """
+        This function tests the set_cmv_1 function which is responsible for 
+        LIC condition number 7. set_cmv_1 should return true iff there exist
+        at least one set of two data points separated by K_PTS whose distance
+        apart is greater than LENGTH1
+        """
+
+        parameters_1 = {"kpts" : 2, "length1" : 2}
+        datapoints_1 = [(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0)]
+        datapoints_2 = [(0,0),(3,0),(5,0),(6,0),(1,0),(2,0),(8,0),(9,0),(10,0),(0,0)]
+        parameters_2 = {"kpts" : 8, "length1" : 8}
+        parameters_3 = {"kpts" : 1, "length1" : 2}
+        parameters_4 = {"kpts" : 1, "length1": 9}
+
+        # There exists many examples with kpts = 2 and length = 2, i.e. (0, 0) ... (3, 0)
+        self.assertTrue(set_CMV_7(len(datapoints_1), datapoints_1, parameters_1))
+        # Tests that (0, 0) ... (9.0) is found
+        self.assertTrue(set_CMV_7(len(datapoints_1), datapoints_1, parameters_2))
+        # Since the hop between points in datapoints_1 is of size 1, the difference
+        # will never be larger than 2
+        self.assertFalse(set_CMV_7(len(datapoints_1), datapoints_1, parameters_3))
+        # No points in datapoints_2 have a difference of 9 with 1 point in between
+        self.assertFalse(set_CMV_7(len(datapoints_2), datapoints_2, parameters_4))
+
 if __name__ == '__main__':
     unittest.main()
