@@ -191,8 +191,52 @@ def set_CMV_7(num_points, datapoints, parameters):
 def set_CMV_8():
     pass
 
-def set_CMV_9():
-    pass
+def set_CMV_9(num_points, datapoints, parameters):
+    cpts = parameters['cpts']
+    dpts = parameters['dpts']
+    epsilon = parameters['epsilon']
+
+    if num_points < 5:
+          return False # "When NUMPOINTS < 5, the condition is not met"
+
+    if not (1 <= cpts and 1 <= dpts):
+          # TD: raise error here instead?
+          return False # conditions not met for cpts and dpts
+    if not (cpts + dpts <= num_points - 3):
+          # TD: raise error here instead?
+          return False # conditions not met for cpts and dpts
+
+    # going through each possible set of three points and checking angle
+    for i in range(0, num_points - cpts - dpts - 2):
+          # current three points, separated by cpts and dpts points respectively
+          p1 = datapoints[i]
+          p2 = datapoints[i+cpts+1]
+          p3 = datapoints[i+cpts+1+dpts+1]
+
+          if (p1 == p2 or p3 == p2):
+                return False # "p1 and or p3 can not coincide with p2"
+          else:
+                
+                a = np.sqrt(
+                      (p1[0]-p2[0])**2 +
+                      (p1[1]-p2[1])**2
+                )
+                b = np.sqrt(
+                      (p3[0]-p2[0])**2 +
+                      (p3[1]-p2[1])**2
+                )
+                c = np.sqrt(
+                      (p3[0]-p1[0])**2 +
+                      (p3[1]-p1[1])**2
+                )
+                # c^2 = a^2 + b^2 - 2abcos(angle p1p2p3)
+                # angle p1p2p3 = arccos((a^2 + b^2 - c^2) / (2ab)), see https://en.wikipedia.org/wiki/Law_of_cosines
+                angle = np.arccos((a**2 + b**2 - c**2) / (2 * a * b) )
+
+                if ((angle < np.pi - epsilon) or (angle > np.pi + epsilon)):
+                      # angle p1p2p3 can not be in the range PI ± epsilon
+                      return True
+    return False
 
 def set_CMV_10(num_points, datapoints, parameters):
     """

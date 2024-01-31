@@ -277,5 +277,65 @@ class TestDecide(unittest.TestCase):
         # No points in datapoints_2 have a difference of 9 with 1 point in between
         self.assertFalse(set_CMV_7(len(datapoints_2), datapoints_2, parameters_4))
 
+    def test_cmv_9_too_few_datapoints(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 3,
+            'epsilon' : np.pi/4
+        }
+
+        datapoints = [(0,0),(1,0),(2,0)]
+        num_points = len(datapoints)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "num_points is less than 5, not satisfactory")
+
+    def test_cmv_9_only_angles_of_PI_radians(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 3,
+            'epsilon' : 0
+        }
+
+        datapoints = [(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0)]
+        num_points = len(datapoints)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "All points are along a line Y=0, angle is always pi which is in forbidden range")
+    
+    def test_cmv_9_no_valid_angles(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 3,
+            'dpts' : 4,
+            'epsilon' : np.pi/2 + 0.00001 # needs a threshold (we have an angle (PI/2) that is right on the edge of the invalid range PI±ε)
+        }
+
+        datapoints = [(-1,0),(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(4,9),(10,0)]
+        num_points = len(datapoints)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "One angle close to the edge of invalid range, but still invalid. THe rest are clearly invalid")
+
+    def test_cmv_9_test_angles_close_to_unvalid_range(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 3,
+            'dpts' : 4,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [(-1,0), (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(3,9),(10,0)]
+        datapoints_1 = [(-1,0), (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(5,9),(10,0)]
+        num_points = 12
+
+        # Test computational logic in set_CMV_9 function
+        self.assertTrue(set_CMV_9(num_points, datapoints_0, parameters), "One set have an angle slightly less than PI/2, is outside forbidden range PI±PI/2")
+        self.assertFalse(set_CMV_9(num_points, datapoints_1, parameters), "All angles are PI exept on that is slightly greater than PI/2, still in forbidden range PI±PI/2")
+        
+
+
 if __name__ == '__main__':
     unittest.main()
