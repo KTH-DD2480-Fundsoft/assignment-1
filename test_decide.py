@@ -112,7 +112,7 @@ class TestDecide(unittest.TestCase):
         self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
 
 
-    def test_cmv_9(self):
+    def test_cmv_9_too_few_datapoints(self):
         # Define test parameters
         parameters = {
             'cpts' : 2,
@@ -126,7 +126,7 @@ class TestDecide(unittest.TestCase):
         # Test computational logic in set_CMV_9 function
         self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "num_points is less than 5, not satisfactory")
 
-    def test_cmv_9(self):
+    def test_cmv_9_only_angles_of_PI_radians(self):
         # Define test parameters
         parameters = {
             'cpts' : 2,
@@ -138,23 +138,23 @@ class TestDecide(unittest.TestCase):
         num_points = len(datapoints)
 
         # Test computational logic in set_CMV_9 function
-        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "All points are along a line Y=0, angle is always pi")
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "All points are along a line Y=0, angle is always pi which is in forbidden range")
     
-    def test_cmv_9(self):
+    def test_cmv_9_no_valid_angles(self):
         # Define test parameters
         parameters = {
             'cpts' : 3,
             'dpts' : 4,
-            'epsilon' : np.pi/2
+            'epsilon' : np.pi/2 + 0.00001 # needs a threshold (we have an angle (PI/2) that is right on the edge of the invalid range PI±ε)
         }
 
-        datapoints = [(-1,0), (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(4,9),(10,0)]
+        datapoints = [(-1,0),(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(4,9),(10,0)]
         num_points = len(datapoints)
 
         # Test computational logic in set_CMV_9 function
-        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "One set have an angle of exactly PI/2, the rest an angle of PI not valid")
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "One angle close to the edge of invalid range, but still invalid. THe rest are clearly invalid")
 
-    def test_cmv_9(self):
+    def test_cmv_9_test_angles_close_to_unvalid_range(self):
         # Define test parameters
         parameters = {
             'cpts' : 3,

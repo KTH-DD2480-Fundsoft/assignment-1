@@ -140,34 +140,38 @@ def set_CMV_9(num_points, datapoints, parameters):
           return False # "When NUMPOINTS < 5, the condition is not met"
 
     if not (1 <= cpts and 1 <= dpts):
+          # TD: raise error here instead?
           return False # conditions not met for cpts and dpts
     if not (cpts + dpts <= num_points - 3):
+          # TD: raise error here instead?
           return False # conditions not met for cpts and dpts
 
     # going through each possible set of three points and checking angle
     for i in range(0, num_points - cpts - dpts - 2):
           # current three points, separated by cpts and dpts points respectively
-          first_point = datapoints[i]
-          vertex_point = datapoints[i+cpts+1]
-          last_point = datapoints[i+cpts+1+dpts+1]
+          p1 = datapoints[i]
+          p2 = datapoints[i+cpts+1]
+          p3 = datapoints[i+cpts+1+dpts+1]
 
-          if (first_point == vertex_point or last_point == vertex_point):
-                return False # "first_point and or last_point can not coincide with vertex_point"
+          if (p1 == p2 or p3 == p2):
+                return False # "p1 and or p3 can not coincide with p2"
           else:
-                dist_vertex_to_first = np.sqrt(
-                      (first_point[0]-vertex_point[0])**2 +
-                      (first_point[1]-vertex_point[1])**2
+                
+                a = np.sqrt(
+                      (p1[0]-p2[0])**2 +
+                      (p1[1]-p2[1])**2
                 )
-                dist_vertex_to_last = np.sqrt(
-                      (last_point[0]-vertex_point[0])**2 +
-                      (last_point[1]-vertex_point[1])**2
+                b = np.sqrt(
+                      (p3[0]-p2[0])**2 +
+                      (p3[1]-p2[1])**2
                 )
-                dist_first_to_last = np.sqrt(
-                      (last_point[0]-first_point[0])**2 +
-                      (last_point[1]-first_point[1])**2
+                c = np.sqrt(
+                      (p3[0]-p1[0])**2 +
+                      (p3[1]-p1[1])**2
                 )
-                # C = arccos((a^2 + b^2 - c^2) / (2ab))
-                angle = np.arccos((dist_vertex_to_first**2 + dist_vertex_to_last**2 - dist_first_to_last**2) / (2 * dist_vertex_to_first * dist_vertex_to_last) )
+                # c^2 = a^2 + b^2 - 2abcos(angle p1p2p3)
+                # angle p1p2p3 = arccos((a^2 + b^2 - c^2) / (2ab)), see https://en.wikipedia.org/wiki/Law_of_cosines
+                angle = np.arccos((a**2 + b**2 - c**2) / (2 * a * b) )
 
                 if ((angle < np.pi - epsilon) or (angle > np.pi + epsilon)):
                       # angle p1p2p3 can not be in the range PI ± epsilon
