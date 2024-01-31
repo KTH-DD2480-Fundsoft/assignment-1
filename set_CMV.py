@@ -128,6 +128,9 @@ def set_CMV_3(num_points, data_points, parameters):
     return False
 
 def set_CMV_4(num_points, data_points, parameters):
+    ''' Returns true iff at least one set of qpts consecutive points
+        occupy more than quads quadrants, and the following is true:
+        (2 ≤ Q_PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3) '''
 	
     qpts = parameters['qpts']
     quads = parameters['quads']

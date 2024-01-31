@@ -3,7 +3,7 @@ import unittest
 from set_CMV import *
 
 class TestDecide(unittest.TestCase):
-    def test_cmv_4(self):
+    def test_cmv_4_two_valid_sets(self):
         parameters = {
             'qpts' : 4,
             'quads' : 3
@@ -12,7 +12,7 @@ class TestDecide(unittest.TestCase):
         num_points = len(data_points)
         self.assertTrue(set_CMV_4(num_points, data_points, parameters), "4 consecutive points occupy 4 quadrants")
 
-    def test_cmv_4(self):
+    def test_cmv_4_no_valid_sets(self):
         parameters = {
             'qpts' : 4,
             'quads' : 3
@@ -21,7 +21,7 @@ class TestDecide(unittest.TestCase):
         num_points = len(data_points)
         self.assertFalse(set_CMV_4(num_points, data_points, parameters), "No 4 consecutive points occupy 4 quadrants")
 
-    def test_cmv_4(self):
+    def test_cmv_4_impossible(self):
         parameters = {
             'qpts' : 2,
             'quads' : 3
@@ -30,7 +30,7 @@ class TestDecide(unittest.TestCase):
         num_points = len(data_points)
         self.assertFalse(set_CMV_4(num_points, data_points, parameters), "Impossible since quads > qpts")
 
-    def test_cmv_4(self):
+    def test_cmv_4_last_set_in_datapoints_is_valid(self):
         parameters = {
             'qpts' : 3,
             'quads' : 2
@@ -39,7 +39,7 @@ class TestDecide(unittest.TestCase):
         num_points = len(data_points)
         self.assertTrue(set_CMV_4(num_points, data_points, parameters), "The qpts last points occupy more than 2 quadrants")
 
-    def test_cmv_4(self):
+    def test_cmv_4_qpts_equal_to_numpoints_and_condition_still_met(self):
         data_points = [(0.1, 0.1), (0.1, -0.1), (0.1, -0.1), (0.1, -0.1), (-0.1, 0.1), (-0.1, -0.1)]
         num_points = len(data_points)
         parameters = {
@@ -116,28 +116,28 @@ class TestDecide(unittest.TestCase):
         ]
 
         self.assertTrue(
-            set_CMV.set_CMV_3(
+            set_CMV_3(
                 num_points,
                 data_points_true1,
                 parameters_true1 
             )
         )
         self.assertTrue(
-            set_CMV.set_CMV_3(
+            set_CMV_3(
                 num_points,
                 data_points_true2,
                 parameters_true2 
             )
         )
         self.assertFalse(
-            set_CMV.set_CMV_3(
+            set_CMV_3(
                 num_points,
                 data_points_false1,
                 parameters_false1 
             )
         )
         self.assertFalse(
-            set_CMV.set_CMV_3(
+            set_CMV_3(
                 num_points,
                 data_points_false2,
                 parameters_false2 
