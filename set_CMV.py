@@ -113,8 +113,19 @@ def set_CMV_1(numpoints, datapoints, parameters):
 def set_CMV_2():
     pass
 
-def set_CMV_3():
-    pass
+def set_CMV_3(num_points, data_points, parameters):
+    ''' Returns true iff there exists three consecutive
+        points in 'data_points' that form a triangle 
+        of size greater than parameters["AREA1"]. '''
+
+    area = parameters["AREA1"]
+    for i in range(num_points-2):
+        v1,v2,v3 = ( np.array(data_points[i])
+                   , np.array(data_points[i+1])
+                   , np.array(data_points[i+2]) ) 
+        a = np.abs(np.cross(v2-v1,v3-v1))/2
+        if a > area: return True
+    return False
 
 def set_CMV_4():
     pass
@@ -256,4 +267,5 @@ def set_CMV_14(num_points, datapoints, parameters):
         cond2 = cond2 or triangle_area < area2
         i += 1
     return cond1 and cond2
+
 
