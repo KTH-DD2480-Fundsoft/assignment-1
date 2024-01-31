@@ -139,8 +139,25 @@ def set_CMV_5(num_points, data_points, parameters):
 def set_CMV_6():
     pass
 
-def set_CMV_7():
-    pass
+def set_CMV_7(num_points, datapoints, parameters):
+    k_pts = parameters["kpts"]
+    length1 = parameters["length1"]
+    coordinates = np.array(datapoints)
+    cmv_cond = False
+
+    if num_points < 3:
+        return False
+
+    # With k_pts intervening points, the last point in the loop 
+    # point will have index num_points - k_pts - 2
+    num_pairs = num_points - k_pts - 1
+    for i in range(num_pairs):
+        point = coordinates[i + k_pts + 1]
+        if np.sqrt(np.sum((coordinates[i] - point)**2)) > length1:
+            cmv_cond = True
+            break
+
+    return cmv_cond
 
 def set_CMV_8():
     pass
