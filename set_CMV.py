@@ -142,8 +142,59 @@ def set_CMV_6():
 def set_CMV_7():
     pass
 
-def set_CMV_8():
-    pass
+def set_CMV_8(num_points, datapoints, parameters):
+    a_pts = parameters["apts"]
+    b_pts = parameters["bpts"]
+    radius_1 = parameters["radius1"]
+    cmv_cond = False
+
+    if num_points < 5:
+        return False 
+
+    # This makes it so p_3 in the last iteration has index num_points - 1 
+    num_triplets = num_points - a_pts - b_pts - 2
+    for i in range(num_triplets):
+        p_1 = complex(datapoints[i][0], datapoints[i][1])
+        p_2 = complex(datapoints[i + a_pts + 1][0], datapoints[i + a_pts + 1][1])
+        p_3 = complex(datapoints[i + a_pts + b_pts + 2][0], datapoints[i + a_pts + b_pts + 2][1])
+
+        if p_1 == p_2 == p_3:
+            continue
+
+        # If two points are equal, then check if the distance between
+		# the differing points is greater than the diameter. 
+        if p_1 == p_2:
+            if abs(p_3 - p_2) > 2*radius_1:
+                cmv_cond = True
+            else:
+                continue
+        elif p_2 == p_3:
+            if abs(p_1 - p_3) > 2*radius_1:
+                cmv_cond = True
+            else:
+                continue
+        elif p_3 == p_1:
+            if abs(p_2 - p_1) > 2*radius_1:
+                cmv_cond = True
+            else:
+                continue
+        if cmv_cond:
+            break
+
+        # Code taken from https://math.stackexchange.com/questions/213658/get-the-equation-of-a-circle-when-given-3-points
+        w = (p_3 - p_1)/(p_2 - p_1)
+
+        # If the points are collinear, then they cannot create a circle
+        if abs(w.imag) <= 0.0001:
+            continue
+
+        c = (p_2 - p_1)*(w - abs(w)**2)/(2j*w.imag) + p_1  
+        circumradius = abs(p_1 - c)
+
+        if circumradius > radius_1:
+            cmv_cond = True
+            break
+    return cmv_cond
 
 def set_CMV_9():
     pass
