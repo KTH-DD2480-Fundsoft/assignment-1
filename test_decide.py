@@ -221,7 +221,7 @@ class TestDecide(unittest.TestCase):
         parameters_2 = {"kpts" : 8, "length1" : 8}
         parameters_3 = {"kpts" : 1, "length1" : 2}
         parameters_4 = {"kpts" : 1, "length1": 9}
-
+        
         # There exists many examples with kpts = 2 and length = 2, i.e. (0, 0) ... (3, 0)
         self.assertTrue(set_CMV_7(len(datapoints_1), datapoints_1, parameters_1))
         # Tests that (0, 0) ... (9.0) is found
@@ -231,6 +231,34 @@ class TestDecide(unittest.TestCase):
         self.assertFalse(set_CMV_7(len(datapoints_1), datapoints_1, parameters_3))
         # No points in datapoints_2 have a difference of 9 with 1 point in between
         self.assertFalse(set_CMV_7(len(datapoints_2), datapoints_2, parameters_4))
+
+    def test_cmv_8(self):
+        """
+        This function tests the set_cmv_8 function which is responsible for 
+        LIC condition number 8. set_cmv_8 should return true iff there exist
+        at least one set of three data points separated by A_PTS and B_PTS 
+        who cannot be encircled by a circle of radius RADIUS1
+        """
+        # (3.0, 1.0), (10.0, 2.0), and (3.0, 3.0) create a circle with radius 3.57
+        # set_cmv_8 should therefore be true for radius1 = 3 but not for radius1 = 4
+        datapoints_1 = [(3.0, 1.0), (1.0, 1.0), (10.0, 2.0), (2.0, 1.0), (2.0, 1.0), (3.0, 3.0)]
+        parameters_1 = {"apts" : 1, "bpts" : 2, "radius1" : 3}
+        parameters_2 = {"apts" : 1, "bpts" : 2, "radius1" : 4}
+        
+        # (2.0, 1.0), (5.0, 2.0), and (3.0, 2.5) create a circle with radius 1.67
+        # set_cmv_8 should therefore be true for radius1 = 1 but not for radius1 = 2
+        datapoints_2 = [(1.8, 0.9), (2.0, 1.0), (2.0, 1,0), (0.0, 0.0), (5.0, 2.0), (5.0, 2.0), 
+                        (0.0, 0.0), (3.0, 2.5), (2.0, 2.0)]
+        parameters_3 = {"apts" : 2, "bpts" : 2, "radius1" : 1}
+        parameters_4 = {"apts" : 2, "bpts" : 2, "radius1" : 2}
+
+        self.assertTrue(set_CMV_8(len(datapoints_1), datapoints_1, parameters_1))
+        self.assertFalse(set_CMV_8(len(datapoints_1), datapoints_1, parameters_2))
+
+        self.assertTrue(set_CMV_8(len(datapoints_2), datapoints_2, parameters_3))
+        self.assertFalse(set_CMV_8(len(datapoints_2), datapoints_2, parameters_4))
+
+
 
 if __name__ == '__main__':
     unittest.main()
