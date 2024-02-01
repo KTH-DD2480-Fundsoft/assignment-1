@@ -290,15 +290,15 @@ class TestDecide(unittest.TestCase):
         self.assertEqual(calculated_cmv, CMV_correct_test_1), "test_1: Calculated cmv not the same as the correct test_1 version"
 
         # Tests if the computed PUM matrix is the same as the expected PUM matrix for test1
-        calculated_PUM = set_PUM(lcm_test_1, calculated_cmv)
+        calculated_PUM = compute_PUM(calculated_cmv,puv_test_1,lcm_test_1)
         self.assertEqual(calculated_PUM, PUM_correct_test_1), "test_1: Calculated PUM not the same as the correct test_1 version"
 
         # Tests if the computed FUV vector is the same as the expected FUV vector for test1
-        calculated_FUV = set_FUV(puv_test_1, calculated_PUM)
+        calculated_FUV = compute_FUV(puv_test_1, calculated_PUM)
         self.assertEqual(calculated_FUV, FUV_correct_test_1), "test_1: Calculated FUV not the same as the correct test_1 version"
 
         # Test if 
-        calculated_LAUNCH = set_LAUNCH()
+        calculated_LAUNCH = compute_LAUNCH()
         self.assertEqual(calculated_LAUNCH, LAUNCH_correct_test_1), "test_1: Calculated LAUNCH not the same as the correct test_1 version"
 
     def test_2(self):
@@ -309,15 +309,15 @@ class TestDecide(unittest.TestCase):
         self.assertEqual(calculated_cmv, CMV_correct_test_2), "test_2: Calculated cmv not the same as the correct test_2 version"
 
         # Tests if the computed PUM matrix is the same as the expected PUM matrix for test2
-        calculated_PUM = set_PUM(lcm_test_2, calculated_cmv)
+        calculated_PUM = compute_PUM(lcm_test_2, calculated_cmv)
         self.assertEqual(calculated_PUM, PUM_correct_test_2), "test_2: Calculated PUM not the same as the correct test_2 version"
 
         # Tests if the computed FUV vector is the same as the expected FUV vector for test2
-        calculated_FUV = set_FUV(puv_test_2, calculated_PUM)
+        calculated_FUV = compute_FUV(puv_test_2, calculated_PUM)
         self.assertEqual(calculated_FUV, FUV_correct_test_2), "test_2: Calculated FUV not the same as the correct test_2 version"
 
         # Test if 
-        calculated_LAUNCH = set_LAUNCH()
+        calculated_LAUNCH = compute_LAUNCH()
         self.assertEqual(calculated_LAUNCH, LAUNCH_correct_test_2), "test_2: Calculated LAUNCH not the same as the correct test_2 version"
 
         
@@ -329,15 +329,15 @@ class TestDecide(unittest.TestCase):
         self.assertEqual(calculated_cmv, CMV_correct_test_3), "test_3: Calculated cmv not the same as the correct test_3 version"
 
         # Tests if the computed PUM matrix is the same as the expected PUM matrix for test3
-        calculated_PUM = set_PUM(lcm_test_3, calculated_cmv)
+        calculated_PUM = compute_PUM(calculated_cmv, puv_test_3, lcm_test_3)
         self.assertEqual(calculated_PUM, PUM_correct_test_3), "test_3: Calculated PUM not the same as the correct test_3 version"
 
         # Tests if the computed FUV vector is the same as the expected FUV vector for test3
-        calculated_FUV = set_FUV(puv_test_3, calculated_PUM)
+        calculated_FUV = compute_FUV(puv_test_3, calculated_PUM)
         self.assertEqual(calculated_FUV, FUV_correct_test_3), "test_3: Calculated FUV not the same as the correct test_3 version"
 
         # Test if 
-        calculated_LAUNCH = set_LAUNCH()
+        calculated_LAUNCH = compute_LAUNCH(calculated_FUV)
         self.assertEqual(calculated_LAUNCH, LAUNCH_correct_test_3), "test_3: Calculated LAUNCH not the same as the correct test_3 version"
 
 

@@ -4,7 +4,7 @@ from enum import Enum
 from numpy import array, float64
 from numpy.typing import NDArray
 from typing import List, Tuple, TypedDict
-from set_CMV import *
+from LIC_evaluation import *
 
 NUMBER_OF_CONDITIONS = 15
 
@@ -164,31 +164,47 @@ def handle_input() ->  \
         print_help()
         exit(1)
     
-def set_PUM():
+def compute_PUM(cmv,puv,lcm):
     """
         PUM[i, j] = CMV[i] <LCM[i, j]> CMV[j]
         NOTUSED -> True
         Note that the LCM is symmetric, i.e. LCM[i,j]=LCM[j,i] for all i and j.
     """
-    pass
+    pum = [[True for _ in range(15)] for _ in range(15)]
+    nr_of_rows, nr_of_cols = len(lcm), len(lcm[0])
+    for i in range(nr_of_rows):
+        # TODO: Potential out of bounds in "puv[i]"?
+        if puv[i]:
+            for j in range(nr_of_cols):
+                if lcm[i][j] == CONNECTORS.ANDD:
+                    truth_value = cmv[i] and cmv[j]
+                    if truth_value == False:
+                        pum[i][j] = False
+                elif lcm[i][j] == CONNECTORS.ORR:
+                    truth_value = cmv[i] or cmv[j]
+                    if truth_value == False:
+                        pum[i][j] = False
+    return pum
+pass
 
 
-def set_FUV():
+def compute_FUV(pum, puv):
     """
         FUV[i] = True of PUV[i] is False or all elements in PUM row i are True
     """
-    pass
+    return [all(row) or puv[i] for i, row in enumerate(pum)]
 
-def set_LAUNCH():
+def compute_LAUNCH(fuv):
     """
         True if all elements of FUV are True
     """
-    pass
-
+    return all(fuv)
 
 def decide(puv, lcm, lic_parameters, nr_of_data_points, data_points ):
     cmv = compute_cmv(lic_parameters, nr_of_data_points, data_points)
-    return does_pum_not_contain_false_element(lcm, cmv, puv)
+    pum = compute_PUM(cmv, puv, lcm)
+    fuv = compute_FUV(pum, puv)
+    return compute_LAUNCH(fuv)  #does_pum_not_contain_false_element(lcm, cmv, puv)
 
 def compute_cmv(lic_parameters, nr_of_data_points, points):
     """
@@ -214,49 +230,49 @@ def compute_cmv(lic_parameters, nr_of_data_points, points):
     cmv = [True] * NUMBER_OF_CONDITIONS
     
     # cmv[0] = evaluate_lic_0(lic_parameters[0], nr_of_data_points, points)
-    cmv[0] = set_CMV_0(nr_of_data_points, points, lic_parameters)
+    cmv[0] = evaluate_LIC_0(nr_of_data_points, points, lic_parameters)
     
     # cmv[1] = evaluate_lic_1(lic_parameters[1], nr_of_data_points, points)
-    cmv[1] = set_CMV_1(nr_of_data_points, points, lic_parameters)
+    cmv[1] = evaluate_LIC_1(nr_of_data_points, points, lic_parameters)
     
     # cmv[2] = evaluate_lic_2(lic_parameters[2], nr_of_data_points, points)
-    cmv[2] = set_CMV_2(nr_of_data_points, points, lic_parameters)
+    cmv[2] = evaluate_LIC_2(nr_of_data_points, points, lic_parameters)
     
     # cmv[3] = evaluate_lic_3(lic_parameters[3], nr_of_data_points, points)
-    cmv[3] = set_CMV_3(nr_of_data_points, points, lic_parameters)
+    cmv[3] = evaluate_LIC_3(nr_of_data_points, points, lic_parameters)
     
     # cmv[4] = evaluate_lic_4(lic_parameters[4], nr_of_data_points, points)
-    cmv[4] = set_CMV_4(nr_of_data_points, points, lic_parameters)
+    cmv[4] = evaluate_LIC_4(nr_of_data_points, points, lic_parameters)
     
     # cmv[5] = evaluate_lic_5(lic_parameters[5], nr_of_data_points, points)
-    cmv[5] = set_CMV_5(nr_of_data_points, points, lic_parameters)
+    cmv[5] = evaluate_LIC_5(nr_of_data_points, points, lic_parameters)
     
     # cmv[6] = evaluate_lic_6(lic_parameters[6], nr_of_data_points, points)
-    cmv[6] = set_CMV_6(nr_of_data_points, points, lic_parameters)
+    cmv[6] = evaluate_LIC_6(nr_of_data_points, points, lic_parameters)
     
     # cmv[7] = evaluate_lic_7(lic_parameters[7], nr_of_data_points, points)
-    cmv[7] = set_CMV_7(nr_of_data_points, points, lic_parameters)
+    cmv[7] = evaluate_LIC_7(nr_of_data_points, points, lic_parameters)
     
     # cmv[8] = evaluate_lic_8(lic_parameters[8], nr_of_data_points, points)
-    cmv[8] = set_CMV_8(nr_of_data_points, points, lic_parameters)
+    cmv[8] = evaluate_LIC_8(nr_of_data_points, points, lic_parameters)
     
     # cmv[9] = evaluate_lic_9(lic_parameters[9], nr_of_data_points, points)
-    cmv[9] = set_CMV_9(nr_of_data_points, points, lic_parameters)
+    cmv[9] = evaluate_LIC_9(nr_of_data_points, points, lic_parameters)
     
     # cmv[10] = evaluate_lic_10(lic_parameters[10], nr_of_data_points, points)
-    cmv[10] = set_CMV_10(nr_of_data_points, points, lic_parameters)
+    cmv[10] = evaluate_LIC_10(nr_of_data_points, points, lic_parameters)
     
     # cmv[11] = evaluate_lic_11(lic_parameters[11], nr_of_data_points, points)
-    cmv[11] = set_CMV_11(nr_of_data_points, points, lic_parameters)
+    cmv[11] = evaluate_LIC_11(nr_of_data_points, points, lic_parameters)
     
     # cmv[12] = evaluate_lic_12(lic_parameters[12], nr_of_data_points, points)
-    cmv[12] = set_CMV_12(nr_of_data_points, points, lic_parameters)
+    cmv[12] = evaluate_LIC_12(nr_of_data_points, points, lic_parameters)
     
     # cmv[13] = evaluate_lic_13(lic_parameters[13], nr_of_data_points, points)
-    cmv[13] = set_CMV_13(nr_of_data_points, points, lic_parameters)
+    cmv[13] = evaluate_LIC_13(nr_of_data_points, points, lic_parameters)
     
     # cmv[14] = evaluate_lic_14(lic_parameters[14], nr_of_data_points, points)
-    cmv[14] = set_CMV_14(nr_of_data_points, points, lic_parameters)
+    cmv[14] = evaluate_LIC_14(nr_of_data_points, points, lic_parameters)
 
     return cmv
 
@@ -288,11 +304,11 @@ def does_pum_not_contain_false_element(lcm, cmv, puv):
         # TODO: Potential out of bounds in "puv[i]"?
         if puv[i]:
             for j in range(nr_of_cols):
-                if lcm[i][j] == ANDD:
+                if lcm[i][j] == CONNECTORS.ANDD:
                     truth_value = cmv[i] and cmv[j]
                     if truth_value == False:
                         return False
-                elif lcm[i][j] == ORR:
+                elif lcm[i][j] == CONNECTORS.ORR:
                     truth_value = cmv[i] or cmv[j]
                     if truth_value == False:
                         return False
@@ -314,3 +330,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
