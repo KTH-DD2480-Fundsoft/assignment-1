@@ -1,8 +1,54 @@
+import numpy as np
 import set_CMV
 import unittest
 from set_CMV import *
 
 class TestDecide(unittest.TestCase):
+    def test_cmv_4_two_valid_sets(self):
+        parameters = {
+            'qpts' : 4,
+            'quads' : 3
+        }
+        data_points = [(0.1, 0.1), (-0.1, 0.1), (0.1, -0.1), (-0.1, -0.1), (0.1, 0.1)]
+        num_points = len(data_points)
+        self.assertTrue(set_CMV_4(num_points, data_points, parameters), "4 consecutive points occupy 4 quadrants")
+
+    def test_cmv_4_no_valid_sets(self):
+        parameters = {
+            'qpts' : 4,
+            'quads' : 3
+        }
+        data_points = [(0.1, 0.1), (0.1, -0.1), (0.1, -0.1), (-0.1, 0.1), (0.1, 0.1)]
+        num_points = len(data_points)
+        self.assertFalse(set_CMV_4(num_points, data_points, parameters), "No 4 consecutive points occupy 4 quadrants")
+
+    def test_cmv_4_impossible(self):
+        parameters = {
+            'qpts' : 2,
+            'quads' : 3
+        }
+        data_points = [(0.1, 0.1), (-0.1, 0.1), (0.1, -0.1), (-0.1, -0.1), (0.1, 0.1)]
+        num_points = len(data_points)
+        self.assertFalse(set_CMV_4(num_points, data_points, parameters), "Impossible since quads > qpts")
+
+    def test_cmv_4_last_set_in_datapoints_is_valid(self):
+        parameters = {
+            'qpts' : 3,
+            'quads' : 2
+        }
+        data_points = [(0.1, 0.1), (0.1, -0.1), (0.1, -0.1), (0.1, -0.1), (0.1, 0.1), (-0.1, -0.1)]
+        num_points = len(data_points)
+        self.assertTrue(set_CMV_4(num_points, data_points, parameters), "The qpts last points occupy more than 2 quadrants")
+
+    def test_cmv_4_qpts_equal_to_numpoints_and_condition_still_met(self):
+        data_points = [(0.1, 0.1), (0.1, -0.1), (0.1, -0.1), (0.1, -0.1), (-0.1, 0.1), (-0.1, -0.1)]
+        num_points = len(data_points)
+        parameters = {
+            'qpts' : num_points,
+            'quads' : 3
+        }
+        self.assertTrue(set_CMV_4(num_points, data_points, parameters), "qpts = num_points, all 4 quadrants are occupied")
+
     def test_cmv_0(self):
         # Define test parameters (should probably be moved to JSON test file later)
         parameters = {}
@@ -71,28 +117,28 @@ class TestDecide(unittest.TestCase):
         ]
 
         self.assertTrue(
-            set_CMV.set_CMV_3(
+            set_CMV_3(
                 num_points,
                 data_points_true1,
                 parameters_true1 
             )
         )
         self.assertTrue(
-            set_CMV.set_CMV_3(
+            set_CMV_3(
                 num_points,
                 data_points_true2,
                 parameters_true2 
             )
         )
         self.assertFalse(
-            set_CMV.set_CMV_3(
+            set_CMV_3(
                 num_points,
                 data_points_false1,
                 parameters_false1 
             )
         )
         self.assertFalse(
-            set_CMV.set_CMV_3(
+            set_CMV_3(
                 num_points,
                 data_points_false2,
                 parameters_false2 
@@ -144,11 +190,70 @@ class TestDecide(unittest.TestCase):
         datapoints_2 = [(0,0),(3,0),(5,0),(6,0),(1,0),(2,0),(8,0),(9,0),(10,0),(0,0)]
         datapoints_3 = [(-1,0),(-2,0),(-3,0),(0,0),(1,0),(2,0),(0,0),(0,0),(0,0),(0,0)]
 
+
         # Test computational logic in set_CMV_11 function
         self.assertFalse(set_CMV_11(num_points, datapoints_1, parameters), "test_cmv_11: x vector is only increasing")
         self.assertTrue(set_CMV_11( num_points, datapoints_2, parameters), "test_cmv_11: x vector includes correct set of datapoints")
         self.assertTrue(set_CMV_11( num_points, datapoints_3, parameters), "test_cmv_11: x vector includes correct set of datapoints")
         self.assertFalse(set_CMV_11(num_points_less, datapoints_2, parameters), "test_cmv_11: NUMPOINTS less than 3")
+
+    def test_cmv_2(self):
+        """ 
+        Tests the behavior of the set_cmv_2 function which should return true iff there exists
+        three consecutive points s.t. the angle that they create is < PI - EPSILON or > PI - EPSILON
+        """        
+        # Creates an angle of 0.5236
+        # 0.5236 < pi - 2
+        datapoints_1 = [(-2.0, -1.0), (1.0, np.sqrt(3)), (0.0, 0.0), (np.sqrt(3), 1.0), (-3.0, -3.0)]
+        parameters_1 = {"epsilon" : 2}
+
+        # Creates an angle of −1.5708
+        # -1.5708 !< pi - 5
+        datapoints_2 = [(1.0, 1.0), (0.0, 0.0), (1.0, -1.0)]
+        parameters_2 = {"epsilon" : 5}
+
+        # Creates an angle of pi
+        # pi !> pi + 0
+        datapoints_3 = [(-1.0, -1.0), (0.0, 0.0), (1.0, 1.0)]
+        parameters_3 = {"epsilon" : 0}
+
+        # Creates an angle of 2.3562
+        # 2.3562 < pi - 0.1
+        datapoints_4 = [(-1.0, -2.0), (-2.0, 0.0), (0.0, 0.0), (1.0, 1.0), (-22.3, 22.0)]
+        parameters_4 = {"epsilon" : 0.1}
+        
+        self.assertTrue(set_CMV_2(len(datapoints_1), datapoints_1, parameters_1))
+        self.assertFalse(set_CMV_2(len(datapoints_2), datapoints_2, parameters_2))
+        self.assertFalse(set_CMV_2(len(datapoints_3), datapoints_3, parameters_3))
+        self.assertTrue(set_CMV_2(len(datapoints_4), datapoints_4, parameters_4))
+
+    def test_cmv_12(self):
+        num_points = 11    
+        parameters = { "KPTS" : 3 
+                     , "LENGTH1" : 10.0 
+                     , "LENGTH2" : 1.0 }
+        data_points = [ (0.75,0.0), (1.0,0.0), (1.25,0.0), 
+                        (1.5,0.0), (5.5,0.0), (3.0,0.0),  
+                        (4.0,0.0), (5.0,0.0), (6.0,0.0), 
+                        (7.0,0.0), (15.0,0.0) ]
+        data_points = [np.array(e) for e in data_points]
+        
+        self.assertTrue(set_CMV_12(num_points,data_points,parameters))
+        data_points[10] = np.array((8.0,0.0))
+        self.assertFalse(set_CMV_12(num_points,data_points,parameters))
+
+        num_points = 11    
+        parameters = { "KPTS" : 3 
+                     , "LENGTH1" : 10.0 
+                     , "LENGTH2" : 1.0 }
+        data_points = [ (1.0,0.0), (2.0,0.0), (3.0,0.0), 
+                        (4.0,0.0), (5.0,0.0), (6.0,0.0),  
+                        (7.0,0.0), (8.0,0.0), (9.0,0.0), 
+                        (10.0,0.0), (18.0,0.0) ]
+        data_points = [np.array(e) for e in data_points]
+        self.assertFalse(set_CMV_12(num_points,data_points,parameters))
+        data_points[0] = np.array((4.5,0))
+        self.assertTrue(set_CMV_12(num_points,data_points,parameters))
 
     def test_cmv_5(self):
         # Define test parameters
@@ -192,6 +297,28 @@ class TestDecide(unittest.TestCase):
 
         self.assertTrue(set_CMV_8(len(datapoints_2), datapoints_2, parameters_3))
         self.assertFalse(set_CMV_8(len(datapoints_2), datapoints_2, parameters_4))
+        
+    def test_cmv_14(self):
+        num_points = 8    
+        parameters = { "EPTS" : 2
+                     , "FPTS" : 2 
+                     , "AREA1" : 4.0 
+                     , "AREA2" : 1.1 }
+        data_points = [ (0.0,0.0), (1.0,0.0), (2.0,0.0), 
+                        (3.0,0.0), (3.0,1.0), (3.0,2.0),  
+                        (3.0,3.0), (1.0,1.0)]
+        data_points = [np.array(e) for e in data_points]
+        self.assertTrue(set_CMV_14(num_points,data_points,parameters))
+        data_points = [ (0.0,0.0), (1.0,0.0), (2.0,0.0), 
+                        (3.0,0.0), (3.0,1.0), (3.0,2.0),  
+                        (3.0,3.0), (10.0,10.0)]
+        data_points = [np.array(e) for e in data_points]
+        self.assertFalse(set_CMV_14(num_points,data_points,parameters))
+        data_points = [ (0.0,0.0), (1.0,0.0), (2.0,0.0), 
+                        (3.0,0.0), (3.0,0.5), (3.0,1.0),  
+                        (3.0,1.5), (1.0,1.0)]
+        data_points = [np.array(e) for e in data_points]
+        self.assertFalse(set_CMV_14(num_points,data_points,parameters))
 
     def test_cmv_1_equal_points(self):
         """
@@ -230,6 +357,193 @@ class TestDecide(unittest.TestCase):
         self.assertTrue(set_CMV_1(num_points, datapoints, parameters))
         parameters["radius1"] = 1
         self.assertFalse(set_CMV_1(num_points, datapoints, parameters))
+
+    def test_cmv_7(self):
+        """
+        This function tests the set_cmv_7 function which is responsible for 
+        LIC condition number 7. set_cmv_7 should return true iff there exist
+        at least one set of two data points separated by K_PTS whose distance
+        apart is greater than LENGTH1
+        """
+
+        parameters_1 = {"kpts" : 2, "length1" : 2}
+        datapoints_1 = [(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0)]
+        datapoints_2 = [(0,0),(3,0),(5,0),(6,0),(1,0),(2,0),(8,0),(9,0),(10,0),(0,0)]
+        parameters_2 = {"kpts" : 8, "length1" : 8}
+        parameters_3 = {"kpts" : 1, "length1" : 2}
+        parameters_4 = {"kpts" : 1, "length1": 9}
+
+        # There exists many examples with kpts = 2 and length = 2, i.e. (0, 0) ... (3, 0)
+        self.assertTrue(set_CMV_7(len(datapoints_1), datapoints_1, parameters_1))
+        # Tests that (0, 0) ... (9.0) is found
+        self.assertTrue(set_CMV_7(len(datapoints_1), datapoints_1, parameters_2))
+        # Since the hop between points in datapoints_1 is of size 1, the difference
+        # will never be larger than 2
+        self.assertFalse(set_CMV_7(len(datapoints_1), datapoints_1, parameters_3))
+        # No points in datapoints_2 have a difference of 9 with 1 point in between
+        self.assertFalse(set_CMV_7(len(datapoints_2), datapoints_2, parameters_4))
+
+    def test_cmv_9_too_few_datapoints(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 3,
+            'epsilon' : np.pi/4
+        }
+
+        datapoints = [(0,0),(1,0),(2,0)]
+        num_points = len(datapoints)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "num_points is less than 5, not satisfactory")
+
+    def test_cmv_9_only_angles_of_PI_radians(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 3,
+            'epsilon' : 0
+        }
+
+        datapoints = [(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0)]
+        num_points = len(datapoints)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "All points are along a line Y=0, angle is always pi which is in forbidden range")
+    
+    def test_cmv_9_no_valid_angles(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 3,
+            'dpts' : 4,
+            'epsilon' : np.pi/2 + 0.00001 # needs a threshold (we have an angle (PI/2) that is right on the edge of the invalid range PI±ε)
+        }
+
+        datapoints = [(-1,0),(0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(4,9),(10,0)]
+        num_points = len(datapoints)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points, datapoints, parameters), "One angle close to the edge of invalid range, but still invalid. THe rest are clearly invalid")
+
+    def test_cmv_9_test_angles_close_to_unvalid_range(self):
+        # Define test parameters
+        parameters = {
+            'cpts' : 3,
+            'dpts' : 4,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [(-1,0), (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(3,9),(10,0)]
+        datapoints_1 = [(-1,0), (0,0),(1,0),(2,0),(3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(5,9),(10,0)]
+        num_points = 12
+
+        # Test computational logic in set_CMV_9 function
+        self.assertTrue(set_CMV_9(num_points, datapoints_0, parameters), "One set have an angle slightly less than PI/2, is outside forbidden range PI±PI/2")
+        self.assertFalse(set_CMV_9(num_points, datapoints_1, parameters), "All angles are PI exept on that is slightly greater than PI/2, still in forbidden range PI±PI/2")
+
+    def test_cmv_9_set_with_coinciding_points_followed_by_satisfactory_set(self):
+        
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 2,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [(-1,0), (0,0),(0,0),(2,0),(3,0),(4,0),(2,0),(6,0),(7,0),(8,0),(3,9),(10,0)]
+        datapoints_1 = [(-1,0), (0,0),(0,0),(-1,0),(3,0),(4,0),(2,0),(6,0),(7,0),(8,0),(3,9),(10,0)]
+        num_points = len(datapoints_0)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertTrue(set_CMV_9(num_points, datapoints_0, parameters), "The first set has coinciding points, the second last has a satisfactory set with angle≈0.4PI which is outside the invalid range PI±PI/2")
+        self.assertTrue(set_CMV_9(num_points, datapoints_1, parameters), "The first set has coinciding points, the second last has a satisfactory set with angle≈0.4PI which is outside the invalid range PI±PI/2")
+
+    def test_cmv_9_two_sets_with_coinciding_points_but_no_other_satisfactory_sets(self):
+        
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 1,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [(-1,0), (4,0), (2,0), (3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0),(10,0)]
+        datapoints_1 = [(-1,0), (1,0), (2,0), (3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0),(8,0)]
+        num_points_0 = len(datapoints_0)
+        num_points_1 = len(datapoints_1)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points_0, datapoints_0, parameters), "Second set has coinciding points, but no other sets are satisfactory")
+        self.assertFalse(set_CMV_9(num_points_1, datapoints_1, parameters), "Last set has coinciding points, but no other sets are satisfactory")
+        
+    def test_cmv_13(self):
+
+        num_points = 10
+        parameters = {
+            "APTS" : 2,
+            "BPTS" : 3,
+            "RADIUS1" : 1,
+            "RADIUS2" : 2
+        }
+
+        datapoints_1 = [(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0),(0,0)]
+        datapoints_2 = [(0,0),(1.4,1.4),(1,1),(1,1),(1.5,0),(0,0),(0,0),(0,1),(0,-1.9),(1,1)]
+        datapoints_3 = [(1.4,1.4),(0,0),(0,0),(1.4,1.4),(0,0),(0,0),(0,0),(-1.1,-1.1),(0,0),(0,0)]
+        datapoints_4 = [(-1.5,0),(0,0),(0,0),(0,0),(5,5),(5,5),(0,0),(3,0),(0,0),(0,0)]
+
+
+        # Test computational logic in set_CMV_13 function
+        self.assertFalse(set_CMV_13(num_points, datapoints_1, parameters), "test_cmv_13: - ") # Tests when all points are the same
+        self.assertTrue( set_CMV_13(num_points, datapoints_2, parameters), "test_cmv_13: - ") # Tests when many points are the origin but one combination is outside radius1
+        self.assertTrue( set_CMV_13(num_points, datapoints_3, parameters), "test_cmv_13: - ") # Tests when two points are the same. Outside fo radius 1 but inside radius 2
+        self.assertFalse(set_CMV_13(num_points, datapoints_4, parameters), "test_cmv_13: - ") # Tests colinear points that are outside both radius 1 and radius2 
+    
+
+    def test_smallest_containting_circle(self):
+        points_1 = [(0,0),(1,0),(0,1)]
+        points_2 = [(-1,0),(1,0),(0,1)]
+        points_3 = [(-3,0),(-4,3),(-4,-3)]
+        points_4 = [(1,1),(3,3),(5,5)]
+        points_5 = [(-1,0),(3,0),(5,0)]
+        points_6 = [(1,1),(1,1),(1,1)]
+        points_7 = [(-4,-3),(-4,-3),(-4,3)]
+
+        # Test for points in Quadrant 1
+        center_1, radius_1 = smallest_containting_circle(points_1)
+        self.assertEqual(center_1,(0.5,0.5))
+        self.assertEqual(radius_1, 0.7071067811865476)
+
+        # Test for points on unit circle
+        center_2, radius_2 = smallest_containting_circle(points_2)
+        self.assertEqual(center_2,(0.0,0.0))
+        self.assertEqual(radius_2, 1.0)
+
+        # Test for negative points in Quadrants 2 and 3
+        center_3, radius_3 = smallest_containting_circle(points_3)
+        self.assertEqual(center_3,(-4.0,0.0))
+        self.assertEqual(radius_3, 3.0)
+
+        # Test for diagonal colinear points
+        center_4, radius_4 = smallest_containting_circle(points_4)
+        self.assertEqual(center_4,(3.0,3.0))
+        self.assertEqual(radius_4, 2.8284271247461903) 
+
+        # Test for horisontal colinear points
+        center_5, radius_5 = smallest_containting_circle(points_5)
+        self.assertEqual(center_5,(2.0,0.0))
+        self.assertEqual(radius_5, 3.0)
+
+        # Test when all three points are the same
+        center_6, radius_6 = smallest_containting_circle(points_6)
+        self.assertEqual(center_6,(1.0,1.0))
+        self.assertEqual(radius_6, 0)
+
+        # Test when all two points are the same
+        center_7, radius_7 = smallest_containting_circle(points_7)
+        self.assertEqual(center_7,(-4.0,0.0))
+        self.assertEqual(radius_7, 3.0)
+
+
 
 if __name__ == '__main__':
     unittest.main()
