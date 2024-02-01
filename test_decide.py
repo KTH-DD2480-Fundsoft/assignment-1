@@ -476,6 +476,57 @@ class TestDecide(unittest.TestCase):
         # Test computational logic in evaluate_LIC_9 function
         self.assertFalse(evaluate_LIC_9(num_points_0, datapoints_0, parameters), "Second set has coinciding points, but no other sets are satisfactory")
         self.assertFalse(evaluate_LIC_9(num_points_1, datapoints_1, parameters), "Last set has coinciding points, but no other sets are satisfactory")
+
+    def test_lic_9_no_valid_set_and_with_negative_values(self):
+        
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 2,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [
+            (0, 2), (0, 1), (0, 0),
+            (0, -1), (0, -2), (0, -3),
+            (0, -4), (0, -5), (0, -6),
+            (0, -7), (0, -8), (0, -9)]
+        datapoints_1 = [
+            (1, -1), (2, -2), (3, -3),
+            (4, -4), (5, -5), (6, -6),
+            (7, -7), (8, -8), (9, -9)]
+        num_points_0 = len(datapoints_0)
+        num_points_1 = len(datapoints_1)
+
+        # Test computational logic in evaluate_LIC_9 function
+        self.assertFalse(evaluate_LIC_9(num_points_0, datapoints_0, parameters), "All the points are along line, all angles PI")
+        self.assertFalse(evaluate_LIC_9(num_points_1, datapoints_1, parameters), "All the points are along line, all angles PI")
+
+    def test_lic_9_valid_set_and_with_negative_values(self):
+        
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 2,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [
+            (0, 2), (0, 1), (0, 0),
+            (0, -1), (0, -5), (0, -3),
+            (0, -4), (0, -2), (0, -6),
+            (0, -7), (0, -8), (0, -9)]
+        datapoints_1 = [
+            (1, -1), (2, -2), (3, -3),
+            (4, -4), (5, -5), (6, -9),
+            (7, -7), (8, -8), (9, -6)]
+        num_points_0 = len(datapoints_0)
+        num_points_1 = len(datapoints_1)
+
+        # Test computational logic in evaluate_LIC_9 function
+        self.assertTrue(evaluate_LIC_9(num_points_0, datapoints_0, parameters), "All the points are along line, but not in order. Some angles are 0 which is outside invalid range PI±PI/2")
+        self.assertTrue(evaluate_LIC_9(num_points_1, datapoints_1, parameters), "All the points are along line, but not in order. Some angles are 0 which is outside invalid range PI±PI/2")
+        
         
     def test_distance_from_line(self):
         # Test with points on the line
