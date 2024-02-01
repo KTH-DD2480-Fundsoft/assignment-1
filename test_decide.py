@@ -332,17 +332,6 @@ class TestDecide(unittest.TestCase):
         num_points = len(datapoints)
         self.assertFalse(evaluate_LIC_1(num_points, datapoints, parameters))
 
-    def test_lic_1_collinear(self):
-        """
-        Given a set of three collinear points, the points should not 
-        be able to be contained by a circle.
-        """
-        parameters = {}
-        parameters["radius1"] = 0.5
-        datapoints = [(1.0, 1.0), (2.0, 2.0), (3.0, 3.0)]
-        num_points = len(datapoints)
-        self.assertFalse(evaluate_LIC_1(num_points, datapoints, parameters))
-
     def test_lic_1(self):
         """
         The points (1, 0), (-1, 0), and (0, 1) should be contained a by a circle

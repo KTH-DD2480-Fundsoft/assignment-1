@@ -27,69 +27,36 @@ def evaluate_LIC_0(num_points, datapoints, parameters):
     return False
 
 def evaluate_LIC_1(numpoints, datapoints, parameters):
-	"""
-	Set CMV_1 based on LIC 1
-	
-	Parameters
-	----------
-	num_points : (int)
-		Total number of data points
-	datapoints : List[Tuple[float, float]]
-		List of tuples 
-	parameters : (Dict)
-		Contains all the LIC and CMV parameters 
-		
-	Returns 
-	----------
-	Bool 
-		True if LIC 1 is fulfilled, else False    
     """
-	radius_cond = False
-	radius = parameters["radius1"]
+    Set CMV_1 based on LIC 1
 
-	for i in range(numpoints - 2):
-		p_1 = complex(datapoints[i][0], datapoints[i][1])
-		p_2 = complex(datapoints[i+1][0], datapoints[i+1][1])
-		p_3 = complex(datapoints[i+2][0], datapoints[i+2][1])
+    Parameters
+    ----------
+    num_points : (int)
+    Total number of data points
+    datapoints : List[Tuple[float, float]]
+    List of tuples 
+    parameters : (Dict)
+    Contains all the LIC and CMV parameters 
 
-		# We can always encompass a single point
-		if p_1 == p_2 == p_3:
-			continue
+    Returns 
+    ----------
+    Bool 
+    True if LIC 1 is fulfilled, else False    
+    """
+    radius_cond = False
+    radius = parameters["radius1"]
 
-		# If two points are equal, then check if the distance between
-		# the differing points is greater than the diameter. 
-		if p_1 == p_2:
-			if abs(p_3 - p_2) > 2*radius:
-				radius_cond = True
-			else:
-				continue
-		elif p_2 == p_3:
-			if abs(p_1 - p_3) > 2*radius:
-				radius_cond = True
-			else:
-				continue
-		elif p_3 == p_1:
-			if abs(p_2 - p_1) > 2*radius:
-				radius_cond = True
-			else:
-				continue
-		if radius_cond:
-			break
+    for i in range(numpoints - 2):
+        p_1 = datapoints[i]
+        p_2 = datapoints[i+1]
+        p_3 = datapoints[i+2]
 
-		# Code taken from https://math.stackexchange.com/questions/213658/get-the-equation-of-a-circle-when-given-3-points
-		w = (p_3 - p_1)/(p_2 - p_1)
+        if smallest_containting_circle([p_1,p_2,p_3])[1] > radius:
+            radius_cond = True
+            break
 
-		# If the points are collinear, then they cannot create a circle
-		if abs(w.imag) <= 0.0001:
-			continue
-
-		c = (p_2 - p_1)*(w - abs(w)**2)/(2j*w.imag) + p_1  
-		circumradius = abs(p_1 - c)
-
-		if circumradius > radius:
-			radius_cond = True
-			break
-	return radius_cond
+    return radius_cond
 
 def evaluate_LIC_2(num_points, datapoints, parameters):
     epsilon = parameters["epsilon"]
