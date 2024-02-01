@@ -362,7 +362,43 @@ class TestDecide(unittest.TestCase):
         # Test computational logic in set_CMV_9 function
         self.assertTrue(set_CMV_9(num_points, datapoints_0, parameters), "One set have an angle slightly less than PI/2, is outside forbidden range PI±PI/2")
         self.assertFalse(set_CMV_9(num_points, datapoints_1, parameters), "All angles are PI exept on that is slightly greater than PI/2, still in forbidden range PI±PI/2")
+
+    def test_cmv_9_set_with_coinciding_points_followed_by_satisfactory_set(self):
         
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 2,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [(-1,0), (0,0),(0,0),(2,0),(3,0),(4,0),(2,0),(6,0),(7,0),(8,0),(3,9),(10,0)]
+        datapoints_1 = [(-1,0), (0,0),(0,0),(-1,0),(3,0),(4,0),(2,0),(6,0),(7,0),(8,0),(3,9),(10,0)]
+        num_points = len(datapoints_0)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertTrue(set_CMV_9(num_points, datapoints_0, parameters), "The first set has coinciding points, the second last has a satisfactory set with angle≈0.4PI which is outside the invalid range PI±PI/2")
+        self.assertTrue(set_CMV_9(num_points, datapoints_1, parameters), "The first set has coinciding points, the second last has a satisfactory set with angle≈0.4PI which is outside the invalid range PI±PI/2")
+
+    def test_cmv_9_two_sets_with_coinciding_points_but_no_other_satisfactory_sets(self):
+        
+        # Define test parameters
+        parameters = {
+            'cpts' : 2,
+            'dpts' : 1,
+            'epsilon' : np.pi/2
+        }
+
+        datapoints_0 = [(-1,0), (4,0), (2,0), (3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0),(10,0)]
+        datapoints_1 = [(-1,0), (1,0), (2,0), (3,0),(4,0),(5,0),(6,0),(7,0),(8,0),(9,0),(8,0)]
+        num_points_0 = len(datapoints_0)
+        num_points_1 = len(datapoints_1)
+
+        # Test computational logic in set_CMV_9 function
+        self.assertFalse(set_CMV_9(num_points_0, datapoints_0, parameters), "Second set has coinciding points, but no other sets are satisfactory")
+        self.assertFalse(set_CMV_9(num_points_1, datapoints_1, parameters), "Last set has coinciding points, but no other sets are satisfactory")
+        
+
 
 
 if __name__ == '__main__':
