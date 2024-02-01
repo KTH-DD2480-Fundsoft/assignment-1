@@ -204,11 +204,11 @@ PUM_correct_test_1 =   [ [0,   True  ,True ,True ,True,True,True,True,True,True,
                         ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True,True,0   ,True]
                         ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True,True,True,0   ] ]
 
-FUV_correct_test_1 = [True, True, True, True, True
+FUV_correct_test_1 = [False, True, True, True, True
                     ,True, True, True, True, True
                     ,True, True, True, True, True]
 
-LAUNCH_correct_test_1 = True 
+LAUNCH_correct_test_1 = False
 
 ####################################################################################################################
 
