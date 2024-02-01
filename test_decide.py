@@ -427,7 +427,40 @@ class TestDecide(unittest.TestCase):
         self.assertFalse(set_CMV_9(num_points_0, datapoints_0, parameters), "Second set has coinciding points, but no other sets are satisfactory")
         self.assertFalse(set_CMV_9(num_points_1, datapoints_1, parameters), "Last set has coinciding points, but no other sets are satisfactory")
         
+    def test_distance_from_line(self):
+        # Test with points on the line
+        self.assertAlmostEqual(distance_from_line((2, 2), (0, 0), (3, 3)), 0.0)
+        
+        # Test with points off the line
+        self.assertAlmostEqual(distance_from_line((1, 2), (0, 0), (2, 2)), np.sqrt(0.5))
 
+        # Test the degenerate case (line is a point)
+        self.assertAlmostEqual(distance_from_line((2, 3), (1, 1), (1, 1)), np.sqrt(5))
+
+    def test_cmv_6(self):
+        parameters = {
+            "npts" : 3,
+            "dist" : 1.0
+        }
+
+
+        # Test case where condition is met
+        self.assertTrue(set_CMV_6(4, [(0, 0), (1, 1), (2, 2), (0, 10)], parameters))
+
+        self.assertTrue(set_CMV_6(4, [(0, 0), (1, 1), (2, 2), (0, 0)], parameters))
+
+        self.assertFalse(set_CMV_6(3, [(0, 0), (0.4, 0.5), (0, 0)], parameters))
+
+        # Test edge case with fewer than 3 points
+        self.assertFalse(set_CMV_6(2, [(0, 0), (1, 1)], parameters))
+
+        parameters = {
+            "npts" : 3,
+            "dist" : 10.0
+        }
+
+        # Test case where condition is not met
+        self.assertFalse(set_CMV_6(4, [(0, 0), (1, 1), (2, 2), (3, 3)], parameters))
 
 
 if __name__ == '__main__':
