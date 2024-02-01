@@ -499,7 +499,7 @@ class TestDecide(unittest.TestCase):
         calculated_cmv = compute_cmv(parameters_test_3, num_points_test_3, data_points_test_3)
 
         self.assertEqual(calculated_cmv, CMV_correct_test_3), "test_3: Calculated cmv not the same as the correct test_3 version"
-        print(calculated_cmv)
+
         # Tests if the computed PUM matrix is the same as the expected PUM matrix for test3
         calculated_PUM = compute_PUM(calculated_cmv, puv_test_3, lcm_test_3)
         self.assertEqual(calculated_PUM, PUM_correct_test_3), "test_3: Calculated PUM not the same as the correct test_3 version"
