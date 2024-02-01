@@ -192,7 +192,7 @@ def compute_FUV(pum, puv):
     """
         FUV[i] = True of PUV[i] is False or all elements in PUM row i are True
     """
-    return [all(row) or puv[i] for i, row in enumerate(pum)]
+    return [all(row) or not puv[i] for i, row in enumerate(pum)]
 
 def compute_LAUNCH(fuv):
     """
