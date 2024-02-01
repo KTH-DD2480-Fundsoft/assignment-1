@@ -38,7 +38,7 @@ parsed_input_1 = {
 
     "parameters" : {
         "length1"   : 500.0,
-        "radius1"   : 200.0,
+        "radius1"   : 100.0,
         "epsilon"   : 0.1,
         "area1"     : 20.0, 
         "qpts"      : 4,
