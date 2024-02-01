@@ -1,6 +1,6 @@
 import numpy as np
 import unittest
-from set_CMV import *
+from LIC_evaluation import *
 from decide import *
 
 ####################################################################################################################
@@ -246,10 +246,10 @@ parsed_input_4 = {
         "gpts" : 1,
         "kpts" : 1
     },
-    "LCM" : [ ["ANDD"   ,"ANDD"   ,"ORR"    ,"AND"    ,"ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
-            , ["ANDD"   ,"ANDD"   ,"ORR"    ,"ORR"    ,"ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
-            , ["ORR"    ,"ORR"    ,"ANDD"   ,"ANDD"   ,"ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
-            , ["ANDD"   ,"ORR"    ,"ANDD"   ,"ANDD"   ,"ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
+    "LCM" : [ ["ANDD"   ,"ANDD"   ,"ANDD"    ,"AND"    ,"ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
+            , ["ANDD"   ,"ANDD"   ,"ANDD"    ,"ANDD"    ,"ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
+            , ["ANDD"    ,"ANDD"    ,"ANDD"   ,"ANDD"   ,"ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
+            , ["ANDD"   ,"ANDD"    ,"ANDD"   ,"ANDD"   ,"ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
             , ["ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
             , ["ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
             , ["ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD","ANDD"]
@@ -452,12 +452,21 @@ class TestDecide(unittest.TestCase):
         calculated_LAUNCH = compute_LAUNCH(calculated_FUV)
         self.assertEqual(calculated_LAUNCH, LAUNCH_correct_test_3), "test_3: Calculated LAUNCH not the same as the correct test_3 version"
 
-    def test_4(self):        
+    def test_system_only_true_LIC(self):  
+        """ 
+        Tests a set of data points which should satisfy every LIC condition, 
+        where the LCM only has ANDD values, and the PUV has true values. This should
+        result in all true values in the CMV, PUM, FUV and launch.
+        """      
         calculated_cmv = compute_cmv(parameters_test_4, num_points_test_4, data_points_test_4)
-        calculated_PUM = set_PUM(lcm_test_4, calculated_cmv)
-        print(calculated_PUM)
-        self.assertTrue(all(calculated_cmv))
+        calculated_PUM = compute_PUM(lcm_test_4, calculated_cmv, lcm_test_4)
+        calculated_FUV = compute_FUV(calculated_PUM, puv_test_4)
+        calculated_launch = compute_LAUNCH(calculated_FUV)
 
+        self.assertTrue(all(calculated_cmv)) # Ensure that all LICs are true
+        self.assertTrue(all([x for xs in calculated_PUM for x in xs])) # Ensure that all values are true in the PUM
+        self.assertTrue(all(calculated_FUV))
+        self.assertTrue(calculated_launch)
 
 
 if __name__ == '__main__':
