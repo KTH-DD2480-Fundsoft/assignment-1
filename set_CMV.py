@@ -174,27 +174,22 @@ def set_CMV_13(num_points, datapoints, parameters):
     bpts = parameters["BPTS"]
     radius1 = parameters["RADIUS1"]
     radius2 = parameters["RADIUS2"]
-   
+
+    outside_radius_1 = False
+    inside_radius_2 = False
+
     for i in range(num_points-apts-bpts-2):
         p_1 = datapoints[i]
         p_2 = datapoints[i+apts+1]
         p_3 = datapoints[i+apts+bpts+2]
-        # Check if the three points can be contained within circle of RADIUS1
+
         if smallest_containting_circle([p_1,p_2,p_3])[1] > radius1:
-            # Check if the same points can be contained within circle of RADIUS2
-            if smallest_containting_circle([p_1,p_2,p_3])[1] <= radius2:
-                return True
-            # Else check if three other points can be contained within circle of RADIUS2
-            for j in range(num_points-apts-bpts-2):
-                second_p_1 = datapoints[j][0],datapoints[j][1]
-                second_p_2 = datapoints[j+apts+1][0],datapoints[j+apts+1][1]
-                second_p_3 = datapoints[j+apts+bpts+2][0],datapoints[j+apts+bpts+2][1]
-                # If contained then all requirements fulfilled, return True condition
-                if smallest_containting_circle([second_p_1,second_p_2,second_p_3])[1] <= radius2:
-                    return True
-            
+            outside_radius_1 = True
+        if smallest_containting_circle([p_1,p_2,p_3])[1] <= radius2:
+            inside_radius_2 = True
+   
     # If not all conditions are met return False
-    return False
+    return outside_radius_1 and inside_radius_2
 
 def smallest_containting_circle(points):
     """
@@ -260,7 +255,7 @@ def smallest_containting_circle(points):
 
             if (radius < smallest_circle[1]) and valid_circle == True:
                 smallest_circle = temp_circle
-
+ 
     # Find smallest circle from pairs of points
     # This part is from https://www.geeksforgeeks.org/minimum-enclosing-circle/
     for i in range(number_of_points):
@@ -290,6 +285,7 @@ def smallest_containting_circle(points):
 
                     if (radius < smallest_circle[1]) and valid_circle == True:
                         smallest_circle = temp_circle
+    
 
     center_point = smallest_circle[0]
     radius = smallest_circle[1]
