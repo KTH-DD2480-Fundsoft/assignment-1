@@ -232,7 +232,7 @@ def set_CMV_9(num_points, datapoints, parameters):
           p3 = datapoints[i+cpts+1+dpts+1]
 
           if (p1 == p2 or p3 == p2):
-                return False # "p1 and or p3 can not coincide with p2"
+                continue # "p1 and or p3 can not coincide with p2"
           else:
                 
                 a = np.sqrt(
