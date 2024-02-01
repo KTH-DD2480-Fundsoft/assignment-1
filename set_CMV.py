@@ -183,8 +183,84 @@ def set_CMV_5(num_points, data_points, parameters):
             return True # found two consecutive points such that X[i] > X[+1]
     return False # found no satisfactory points
 
-def set_CMV_6():
-    pass
+def set_CMV_6(num_points, data_points, parameters):
+    """
+        Evaluates the truth value of the LIC 6 given the parameters.
+        
+        Parameters
+        ----------
+        num_points : (`int`)
+            The total number of data points.
+        data_points : (`List[Tuple[float, float]]`)
+            The data points.
+        parameters : (`Dict[str]`)
+            The LIC parameters.
+
+        Returns
+        ----------
+        truth_value : (`Bool`)
+            `True` if the LIC (6) is true given the data, otherwise false.
+    """
+
+    N_PTS = parameters['npts']
+    DIST = parameters['dist']
+
+    assert (3 <= N_PTS and N_PTS <= num_points), "CMV_11: `N_PTS` value is not between 3 and `num_points`."
+    assert (0 <= DIST), "CMV_11: `DIST` value is not greater than or equal to 0."
+
+    # The cases `N_PTS < 3` and `N_PTS > num_points` are still being handled, for robustness.
+    if num_points < 3 or N_PTS < 3 or N_PTS > num_points:
+        return False
+
+    for i in range(num_points - N_PTS + 1):
+        subset = data_points[i:i + N_PTS]
+        start_point, end_point = subset[0], subset[-1]
+        for point in subset:
+            if distance_from_line(point, start_point, end_point) > DIST:
+                return True
+
+    return False
+
+# Should be moved to a utils module.
+def distance_from_line(point, start_point, end_point):
+    """
+        Calculate the shortest distance between a point from a line segment defined by two points.
+        
+        Parameters
+        ----------
+        point : (`Tuple[float, float]`)
+            The point of which the distance will be calculated
+        start_point : (`Tuple[float, float]`)
+            The start point of the line segment.
+        end_point : (`Tuple[float, float]`)
+            The end point of the line segment.
+
+        Returns
+        ----------
+        distance : (`float`)
+            The shortest distance between `point` and the line segment defined by
+            `start_point` and `end_point`.
+    """
+
+    start_point_arr, end_point_arr = np.array(start_point), np.array(end_point)
+    if np.array_equal(start_point_arr, end_point_arr):
+        # If line degenerates to a point
+        return np.linalg.norm(np.array(point) - start_point_arr)
+
+    # Calculate vectors
+    line_vec = end_point_arr - start_point_arr
+    point_vec = np.array(point) - start_point_arr
+
+    # Calculate the scalar projection of point_vec onto line_vec
+    scalar_projection = np.dot(point_vec, line_vec) / np.dot(line_vec, line_vec)
+
+    if scalar_projection < 0.0 or scalar_projection > 1.0:
+        # If the projection falls outside the line segment, use the nearest endpoint
+        nearest_point = start_point_arr if scalar_projection < 0.0 else end_point_arr
+        return np.linalg.norm(np.array(point) - nearest_point)
+
+    # Perpendicular distance within the segment
+    return np.linalg.norm(np.cross(line_vec, point_vec)) / np.linalg.norm(line_vec)
 
 def set_CMV_7(num_points, datapoints, parameters):
     k_pts = parameters["kpts"]
@@ -372,7 +448,6 @@ def set_CMV_12(num_points, datapoints, parameters):
 
 
 
-pass
 
 def set_CMV_13():
     pass
