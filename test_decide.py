@@ -281,14 +281,15 @@ class TestDecide(unittest.TestCase):
         """
         # (3.0, 1.0), (10.0, 2.0), and (3.0, 3.0) create a circle with radius 3.57
         # set_cmv_8 should therefore be true for radius1 = 3 but not for radius1 = 4
-        datapoints_1 = [(3.0, 1.0), (1.0, 1.0), (10.0, 2.0), (2.0, 1.0), (2.0, 1.0), (3.0, 3.0)]
+        datapoints_1 = np.asarray([(3.0, 1.0), (1.0, 1.0), (10.0, 2.0), (2.0, 1.0), (2.0, 1.0), (3.0, 3.0)])
+        datapoints_1  = [np.array(p) for p in datapoints_1]
         parameters_1 = {"apts" : 1, "bpts" : 2, "radius1" : 3}
         parameters_2 = {"apts" : 1, "bpts" : 2, "radius1" : 4}
 
         # (2.0, 1.0), (5.0, 2.0), and (3.0, 2.5) create a circle with radius 1.67
         # set_cmv_8 should therefore be true for radius1 = 1 but not for radius1 = 2
-        datapoints_2 = [(1.8, 0.9), (2.0, 1.0), (2.0, 1,0), (0.0, 0.0), (5.0, 2.0), (5.0, 2.0), 
-                        (0.0, 0.0), (3.0, 2.5), (2.0, 2.0)]
+        datapoints_2 = np.asarray([(1.8, 0.9), (2.0, 1.0), (2.0, 1.0), (0.0, 0.0), (5.0, 2.0), (5.0, 2.0), (0.0, 0.0), (3.0, 2.5), (2.0, 2.0)])
+        datapoints_2 = [np.array(p) for p in datapoints_2]
         parameters_3 = {"apts" : 2, "bpts" : 2, "radius1" : 1}
         parameters_4 = {"apts" : 2, "bpts" : 2, "radius1" : 2}
 

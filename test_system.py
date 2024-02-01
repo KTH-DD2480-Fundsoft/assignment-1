@@ -167,7 +167,7 @@ parsed_input_3 = {
 # System Test 4
 # Given inputs
 parsed_input_4 = {
-    "numpoints" : 49,
+    "numpoints" : 53,
     "datapoints" : [
     [0, 0], # CMV 0, CMV 1, CMV 11
     [3, 3], # CMV 0, CMV 1, CMV 2
@@ -218,6 +218,10 @@ parsed_input_4 = {
     [1, 1], # CMV 14
     [50, 1], # CMV 14
     [4, 10], # CMV 14
+    [1, 1], # CMV 4
+    [1, -1], # CMV 4
+    [-1, -1], # CMV 4
+    [-1, 1], # CMV 4
     ],
 
     "parameters" : {
@@ -227,6 +231,7 @@ parsed_input_4 = {
         "radius2" : 20,
         "epsilon" : 0.5,
         "area1" : 1,
+        "area2" : 100,
         "qpts" : 2,
         "quads" : 1,
         "npts" : 3,
@@ -447,12 +452,11 @@ class TestDecide(unittest.TestCase):
         calculated_LAUNCH = set_LAUNCH()
         self.assertEqual(calculated_LAUNCH, LAUNCH_correct_test_3), "test_3: Calculated LAUNCH not the same as the correct test_3 version"
 
-    def test_4(self):
-        print(parameters_test_4)
+    def test_4(self):        
         calculated_cmv = compute_cmv(parameters_test_4, num_points_test_4, data_points_test_4)
-        print("calculated_cmv", calculated_cmv)
-
-
+        calculated_PUM = set_PUM(lcm_test_4, calculated_cmv)
+        print(calculated_PUM)
+        self.assertTrue(all(calculated_cmv))
 
 
 
