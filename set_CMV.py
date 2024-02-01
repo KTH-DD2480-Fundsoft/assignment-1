@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 def set_CMV():
     """
@@ -110,8 +111,25 @@ def set_CMV_1(numpoints, datapoints, parameters):
 			break
 	return radius_cond
 
-def set_CMV_2():
-    pass
+def set_CMV_2(num_points, datapoints, parameters):
+    epsilon = parameters["epsilon"]
+    angle_cond = False
+    for i in range(num_points-2):
+        vertex = datapoints[i+1]
+        
+        # Cannot form an angle if the first or third point is equal to the vertex
+        if datapoints[i] == vertex or datapoints[i+2] == vertex:
+            continue
+    
+        first_ray = np.array(vertex) - np.array(datapoints[i])
+        second_ray = np.array(vertex) - np.array(datapoints[i+2])
+        
+		# Taken from https://stackoverflow.com/questions/2827393/angles-between-two-n-dimensional-vectors-in-python
+        angle = math.atan2(np.linalg.det([second_ray, first_ray]), np.dot(second_ray, first_ray))
+        if angle < np.pi - epsilon or angle > np.pi + epsilon:
+            angle_cond = True
+            break
+    return angle_cond
 
 def set_CMV_3(num_points, data_points, parameters):
     ''' Returns true iff there exists three consecutive
@@ -127,8 +145,37 @@ def set_CMV_3(num_points, data_points, parameters):
         if a > area: return True
     return False
 
-def set_CMV_4():
-    pass
+def set_CMV_4(num_points, data_points, parameters):
+    ''' Returns true iff at least one set of qpts consecutive points
+        occupy more than quads quadrants, and the following is true:
+        (2 ≤ Q_PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3) '''
+	
+    qpts = parameters['qpts']
+    quads = parameters['quads']
+	
+    if quads >= qpts:
+		# qpts consecutive points can not be in more than quads quadrants
+        return False # condition impossible
+
+    for i in range(0, num_points+1-qpts):
+        occupied_quads = [0, 0, 0, 0]
+		# go through qpts consecutive elements in points counting from element i, check visited quadrants in list occupied_quads
+		
+        for j in range(0, qpts):
+            (x, y) = data_points[i + j]
+            if (x >= 0 and y >= 0):
+                occupied_quads[0] = 1
+            elif (x < 0 and y >= 0):
+                occupied_quads[1] = 1
+            elif (x < 0 and y < 0):
+                occupied_quads[2] = 1
+            else:
+                occupied_quads[3] = 1
+            if sum(occupied_quads) > quads:
+				# more than quads quadrants have been vidited
+                return True # condition met
+			
+    return False # condition not met
 
 def set_CMV_5(num_points, data_points, parameters):
     for i in range(0, num_points-1):
@@ -139,14 +186,75 @@ def set_CMV_5(num_points, data_points, parameters):
 def set_CMV_6():
     pass
 
-def set_CMV_7():
-    pass
+def set_CMV_7(num_points, datapoints, parameters):
+    k_pts = parameters["kpts"]
+    length1 = parameters["length1"]
+    coordinates = np.array(datapoints)
+    cmv_cond = False
+
+    if num_points < 3:
+        return False
+
+    # With k_pts intervening points, the last point in the loop 
+    # point will have index num_points - k_pts - 2
+    num_pairs = num_points - k_pts - 1
+    for i in range(num_pairs):
+        point = coordinates[i + k_pts + 1]
+        if np.sqrt(np.sum((coordinates[i] - point)**2)) > length1:
+            cmv_cond = True
+            break
+
+    return cmv_cond
 
 def set_CMV_8():
     pass
 
-def set_CMV_9():
-    pass
+def set_CMV_9(num_points, datapoints, parameters):
+    cpts = parameters['cpts']
+    dpts = parameters['dpts']
+    epsilon = parameters['epsilon']
+
+    if num_points < 5:
+          return False # "When NUMPOINTS < 5, the condition is not met"
+
+    if not (1 <= cpts and 1 <= dpts):
+          # TD: raise error here instead?
+          return False # conditions not met for cpts and dpts
+    if not (cpts + dpts <= num_points - 3):
+          # TD: raise error here instead?
+          return False # conditions not met for cpts and dpts
+
+    # going through each possible set of three points and checking angle
+    for i in range(0, num_points - cpts - dpts - 2):
+          # current three points, separated by cpts and dpts points respectively
+          p1 = datapoints[i]
+          p2 = datapoints[i+cpts+1]
+          p3 = datapoints[i+cpts+1+dpts+1]
+
+          if (p1 == p2 or p3 == p2):
+                continue # "p1 and or p3 can not coincide with p2"
+          else:
+                
+                a = np.sqrt(
+                      (p1[0]-p2[0])**2 +
+                      (p1[1]-p2[1])**2
+                )
+                b = np.sqrt(
+                      (p3[0]-p2[0])**2 +
+                      (p3[1]-p2[1])**2
+                )
+                c = np.sqrt(
+                      (p3[0]-p1[0])**2 +
+                      (p3[1]-p1[1])**2
+                )
+                # c^2 = a^2 + b^2 - 2abcos(angle p1p2p3)
+                # angle p1p2p3 = arccos((a^2 + b^2 - c^2) / (2ab)), see https://en.wikipedia.org/wiki/Law_of_cosines
+                angle = np.arccos((a**2 + b**2 - c**2) / (2 * a * b) )
+
+                if ((angle < np.pi - epsilon) or (angle > np.pi + epsilon)):
+                      # angle p1p2p3 can not be in the range PI ± epsilon
+                      return True
+    return False
 
 def set_CMV_10(num_points, datapoints, parameters):
     """
