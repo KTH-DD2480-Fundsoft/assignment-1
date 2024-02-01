@@ -451,7 +451,7 @@ class TestDecide(unittest.TestCase):
         self.assertFalse(set_CMV_9(num_points_0, datapoints_0, parameters), "Second set has coinciding points, but no other sets are satisfactory")
         self.assertFalse(set_CMV_9(num_points_1, datapoints_1, parameters), "Last set has coinciding points, but no other sets are satisfactory")
         
-   def test_cmv_13(self):
+    def test_cmv_13(self):
 
         num_points = 10
         parameters = {
