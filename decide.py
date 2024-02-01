@@ -117,11 +117,11 @@ def handle_input() ->  \
         
         # check that all parameters are present and that they are of 
         # correct type.
-        params = [("LENGTH1",float), ("RADIUS1",float), ("EPSILON",float),
-                  ("AREA1",float), ("QPTS",int), ("QUADS",int), ("DIST",float),
-                  ("NPTS",int), ("KPTS",int), ("APTS",int), ("BPTS",int),
-                  ("CPTS",int), ("DPTS",int), ("EPTS",int), ("FPTS",int),
-                  ("GPTS",int), ("LENGTH2",float), ("RADIUS2",float), ("AREA2",float)  ]
+        params = [("length1",float), ("radius1",float), ("epsilon",float),
+                  ("area1",float), ("qpts",int), ("quads",int), ("dist",float),
+                  ("npts",int), ("kpts",int), ("apts",int), ("bpts",int),
+                  ("cpts",int), ("dpts",int), ("epts",int), ("fpts",int),
+                  ("gpts",int), ("length2",float), ("radius2",float), ("area2",float)  ]
         if len(params) > len(parameters):
             raise ValueError("Unknown parameters in " + file_path)
         if len(params) < len(parameters):
