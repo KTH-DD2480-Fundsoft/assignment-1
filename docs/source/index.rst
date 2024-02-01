@@ -11,8 +11,9 @@ Welcome to assignment-1's documentation!
    :caption: Contents:
    
    decide
-   set_CMV
-   ../test_decide 
+   LIC_evaluation
+   test_decide
+   test_system
 
 Indices and tables
 ==================
