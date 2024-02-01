@@ -190,8 +190,8 @@ def evaluate_LIC_6(num_points, data_points, parameters):
     N_PTS = parameters['npts']
     DIST = parameters['dist']
 
-    assert (3 <= N_PTS and N_PTS <= num_points), "CMV_11: `N_PTS` value is not between 3 and `num_points`."
-    assert (0 <= DIST), "CMV_11: `DIST` value is not greater than or equal to 0."
+    assert (3 <= N_PTS and N_PTS <= num_points), "CMV_6: `N_PTS` value is not between 3 and `num_points`."
+    assert (0 <= DIST), "CMV_6: `DIST` value is not greater than or equal to 0."
 
     # The cases `N_PTS < 3` and `N_PTS > num_points` are still being handled, for robustness.
     if num_points < 3 or N_PTS < 3 or N_PTS > num_points:
