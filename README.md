@@ -65,8 +65,7 @@ The JSON is formatted as follows:
 }
 ```
 ## ESSENCE state
-We are in the ''In place'' state of the ESSENCE hierarchy. This is because we have quite established ways of planning, working, and reviewing which everyone follows. We also feel that these practices help us to work more efficiently and effectively. This is an important part since if the practices were not beneficial in our work, sticking by them would be quite difficult. To get to the next state, we need to evaluate our practices and see how to improve them. This can be done by regularly amassing feedback at meetings and then adjusting the practices accordingly. We have only had one iteration of trying out these practices and would need more iterations to get to the next state.
-
+We are in the ''In use'' state of the ESSENCE hierarchy. This is because we have quite established ways of planning, working, and reviewing which everyone follows for the most part. While we are mostly consistent, occasional slip ups do still occur. We do feel, however, that these practices help us work more efficiently and effectively. This is an important part since if the practices were not beneficial in our work, sticking by them would be quite difficult. To get to the next state, we need to evaluate our practices and see how to improve them. This can be done by regularly amassing feedback at meetings and then adjusting the practices accordingly. We have only had one iteration of trying out these practices and would need more iterations to get to the next state.
 
 ## Contributing / Workflow
 We use a Github organization to track our development process, creating a project
