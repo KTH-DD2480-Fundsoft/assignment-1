@@ -23,6 +23,16 @@ The program specification is given [Here](./decide.pdf).
 
 ## Using the program
 
+### Running the tests
+We have two types of tests, unit tests and system tests. The unit tests 
+test individual functions and the system tests test the entire LAUNCH program.
+
+To run the unit tests run:
+```python3 -m unittest test_decide.py```
+
+To run the system tests run:
+```python3 -m unittest test_system.py```
+
 ### Virtual Environment
 To be implemented
 
