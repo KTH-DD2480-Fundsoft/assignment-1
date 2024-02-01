@@ -120,7 +120,7 @@ def set_CMV_2(num_points, datapoints, parameters):
         p3 = datapoints[i+2]
         
         # Cannot form an angle if the first or third point is equal to the vertex
-        if p1 == p2 or p3 == p2:
+        if np.array_equal(p1, p2) or np.array_equal(p3, p2):
             continue
 
         a = np.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
@@ -141,7 +141,7 @@ def set_CMV_3(num_points, data_points, parameters):
         points in 'data_points' that form a triangle 
         of size greater than parameters["AREA1"]. '''
 
-    area = parameters["AREA1"]
+    area = parameters["area1"]
     for i in range(num_points-2):
         v1,v2,v3 = ( np.array(data_points[i])
                    , np.array(data_points[i+1])
@@ -330,7 +330,7 @@ def set_CMV_9(num_points, datapoints, parameters):
           p2 = datapoints[i+cpts+1]
           p3 = datapoints[i+cpts+1+dpts+1]
 
-          if (p1 == p2 or p3 == p2):
+          if np.array_equal(p1,p2) or np.array_equal(p3, p2):
                 continue # "p1 and or p3 can not coincide with p2"
           else:
                 
@@ -447,9 +447,9 @@ def set_CMV_12(num_points, datapoints, parameters):
     """
     if num_points < 3: return False 
 
-    length1 = parameters["LENGTH1"]
-    length2 = parameters["LENGTH2"]
-    offset = parameters["KPTS"] + 1
+    length1 = parameters["length1"]
+    length2 = parameters["length2"]
+    offset = parameters["kpts"] + 1
     cond1 = False 
     cond2 = False 
     i = 0
@@ -493,10 +493,10 @@ def set_CMV_13(num_points, datapoints, parameters):
     if num_points < 5:
         return False
     
-    apts = parameters["APTS"]
-    bpts = parameters["BPTS"]
-    radius1 = parameters["RADIUS1"]
-    radius2 = parameters["RADIUS2"]
+    apts = parameters["apts"]
+    bpts = parameters["bpts"]
+    radius1 = parameters["radius1"]
+    radius2 = parameters["radius2"]
 
     outside_radius_1 = False
     inside_radius_2 = False
@@ -538,10 +538,11 @@ def smallest_containting_circle(points):
     if number_of_points == 1:
         return points[0],0
     # If all three points are the same then they can be trivially contained within any circle
-    if points[0] == points[1] == points[2]:
+    if np.array_equal(points[0], points[1]) and np.array_equal(points[1], points[2]):
         return points[0],0
     # Check if two out of three points are the same
-    if (points[0] == points[1]) or (points[0] == points[2]) or (points[1] == points[2]):
+    if np.array_equal(points[0],points[1]) or np.array_equal(points[0], points[2]) or np.array_equal(points[1], points[2]):
+        indexes = []
         if points[0] == points[1]:
             indexes = [0,2]
         if points[0] == points[2]:
@@ -633,10 +634,10 @@ def set_CMV_14(num_points, datapoints, parameters):
     """
     if num_points < 5: return False
 
-    e_pts = parameters["EPTS"]
-    f_pts = parameters["FPTS"]
-    area1 = parameters["AREA1"]
-    area2 = parameters["AREA2"]
+    e_pts = parameters["epts"]
+    f_pts = parameters["fpts"]
+    area1 = parameters["area1"]
+    area2 = parameters["area2"]
     offset1 = e_pts + 1 
     offset2 = f_pts + 1 
     cond1 = False 
