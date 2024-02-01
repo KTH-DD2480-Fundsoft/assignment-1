@@ -115,17 +115,22 @@ def set_CMV_2(num_points, datapoints, parameters):
     epsilon = parameters["epsilon"]
     angle_cond = False
     for i in range(num_points-2):
-        vertex = datapoints[i+1]
+        p1 = datapoints[i]
+        p2 = datapoints[i+1]
+        p3 = datapoints[i+2]
         
         # Cannot form an angle if the first or third point is equal to the vertex
-        if datapoints[i] == vertex or datapoints[i+2] == vertex:
+        if p1 == p2 or p3 == p2:
             continue
-    
-        first_ray = np.array(vertex) - np.array(datapoints[i])
-        second_ray = np.array(vertex) - np.array(datapoints[i+2])
-        
-		# Taken from https://stackoverflow.com/questions/2827393/angles-between-two-n-dimensional-vectors-in-python
-        angle = math.atan2(np.linalg.det([second_ray, first_ray]), np.dot(second_ray, first_ray))
+
+        a = np.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
+        b = np.sqrt((p3[0] - p2[0])**2 + (p3[1] - p2[1])**2)
+        c = np.sqrt((p3[0] - p1[0])**2 + (p3[1] - p1[1])**2)
+
+        # c^2 = a^2 + b^2 - 2abcos(angle p1p2p3)
+        # angle p1p2p3 = arccos((a^2 + b^2 - c^2) / (2ab)), see https://en.wikipedia.org/wiki/Law_of_cosines
+        angle = np.arccos((a**2 + b**2 - c**2) / (2 * a * b) )
+
         if angle < np.pi - epsilon or angle > np.pi + epsilon:
             angle_cond = True
             break
@@ -282,8 +287,26 @@ def set_CMV_7(num_points, datapoints, parameters):
 
     return cmv_cond
 
-def set_CMV_8():
-    pass
+def set_CMV_8(num_points, datapoints, parameters):
+    a_pts = parameters["apts"]
+    b_pts = parameters["bpts"]
+    radius_1 = parameters["radius1"]
+    cmv_cond = False
+
+    if num_points < 5:
+        return False 
+
+    # This makes it so p_3 in the last iteration has index num_points - 1 
+    num_triplets = num_points - a_pts - b_pts - 2
+    for i in range(num_triplets):
+        p_1 = datapoints[i]
+        p_2 = datapoints[i + a_pts + 1]
+        p_3 = datapoints[i + a_pts + b_pts + 2]
+        
+        if smallest_containting_circle([p_1,p_2,p_3])[1] > radius_1:
+            cmv_cond = True
+            break
+    return cmv_cond
 
 def set_CMV_9(num_points, datapoints, parameters):
     cpts = parameters['cpts']
@@ -449,8 +472,188 @@ def set_CMV_12(num_points, datapoints, parameters):
 
 
 
-def set_CMV_13():
-    pass
+def set_CMV_13(num_points, datapoints, parameters):
+    """
+        Set CMV_13 based on LIC 13
 
-def set_CMV_14():
-    pass
+        Parameters
+        ----------
+        num_points : (int)
+            Total number of data points
+        datapoints : List[Tuple[float, float]]
+            List of tuples 
+        parameters : (Dict)
+            Contains all the LIC and CMV parameters 
+        Returns
+        ----------
+        Bool
+            True if LIC 13 is fulfilled, else False
+    """
+    
+    if num_points < 5:
+        return False
+    
+    apts = parameters["APTS"]
+    bpts = parameters["BPTS"]
+    radius1 = parameters["RADIUS1"]
+    radius2 = parameters["RADIUS2"]
+
+    outside_radius_1 = False
+    inside_radius_2 = False
+
+    for i in range(num_points-apts-bpts-2):
+        p_1 = datapoints[i]
+        p_2 = datapoints[i+apts+1]
+        p_3 = datapoints[i+apts+bpts+2]
+
+        if smallest_containting_circle([p_1,p_2,p_3])[1] > radius1:
+            outside_radius_1 = True
+        if smallest_containting_circle([p_1,p_2,p_3])[1] <= radius2:
+            inside_radius_2 = True
+   
+    # If not all conditions are met return False
+    return outside_radius_1 and inside_radius_2
+
+def smallest_containting_circle(points):
+    """
+        Computes the smallest enclosing circle for the given points such that all points are either within the circle or
+        on its boundray edge
+
+        Parameters
+        ----------
+        points : List[(x,y).....]
+            a list containing tuples of all the points to be enclosed by the circle
+
+        Returns
+        ----------
+        center_point : tuple(float,float)
+            center point of the smallest circle that contains all the points
+        smallest_radius : (float)
+            radius of the smallest circle that contains all the points
+        
+    """
+
+    number_of_points = len(points)
+    # If there's only one point then it is trivially contained by itself in a circle of radius 0
+    if number_of_points == 1:
+        return points[0],0
+    # If all three points are the same then they can be trivially contained within any circle
+    if points[0] == points[1] == points[2]:
+        return points[0],0
+    # Check if two out of three points are the same
+    if (points[0] == points[1]) or (points[0] == points[2]) or (points[1] == points[2]):
+        if points[0] == points[1]:
+            indexes = [0,2]
+        if points[0] == points[2]:
+            indexes = [0,1]
+        if points[1] == points[2]:
+            indexes = [0,2]
+        temp = []
+        for index in indexes:
+            temp.append(points[index])
+        points = temp
+        number_of_points = len(points)
+        
+
+    # If there are only two points then the smallest circle to contain them is simply the circle with center 
+    # between the points with both points on the circles edge
+    if number_of_points == 2:
+        center_x = (points[0][0]+points[1][0])/2
+        center_y = (points[0][1]+points[1][1])/2
+        radius   = np.sqrt(np.square(points[0][0]-points[1][0])+np.square(points[0][1]-points[1][1]))/2 
+        return (center_x,center_y),radius 
+    
+    # If len(points) > 2 we must check all pairs and also all triplets of points to find optimal smallest enclosing circle
+    # Find smallest circle from pairs of points
+    smallest_circle = [(0,0),np.inf]
+    for i in range(number_of_points):
+        for j in range(i+1,number_of_points):
+            center = ((points[i][0]+points[j][0])/2, (points[i][1]+points[j][1])/2)
+            radius = np.sqrt(np.square(points[i][0]-points[j][0])+np.square(points[i][1]-points[j][1]))/2 
+            temp_circle = [center,radius]
+            valid_circle = True
+            for k in range(number_of_points):
+                if (np.sqrt(np.square(points[k][0]-center[0])+np.square(points[k][1]-center[1]))) > radius: 
+                    valid_circle = False
+
+            if (radius < smallest_circle[1]) and valid_circle == True:
+                smallest_circle = temp_circle
+ 
+    # Find smallest circle from pairs of points
+    # This part is from https://www.geeksforgeeks.org/minimum-enclosing-circle/
+    for i in range(number_of_points):
+        for j in range(i+1, number_of_points):
+            for k in range(j+1,number_of_points):
+                # Math formula to find center point of circle from three points
+                bx = points[j][0]-points[i][0]
+                by = points[j][1]-points[i][1]
+                cx = points[k][0]-points[i][0]
+                cy = points[k][1]-points[i][1]
+                B  = bx * bx + by * by
+                C  = cx * cx + cy * cy
+                D  = bx * cy - by * cx
+                # D == 0 then points are colinear (on the same linear line) and are covered by the previous two point calculations
+                if D != 0:
+                    I  = [(cy*B - by*C) // (2*D),(bx*C - cx*B) // (2*D)]
+                    I[0]+=points[i][0]
+                    I[1]+=points[i][1]
+                    center = (I[0],I[1])
+
+                    radius = np.sqrt(np.square(I[0]-points[i][0])+np.square(I[1]-points[i][1]))
+                    temp_circle = [center,radius]
+                    valid_circle = True
+                    for l in range(number_of_points):
+                        if (np.sqrt(np.square(points[l][0]-center[0])+np.square(points[l][1]-center[1]))/2) > radius: 
+                            valid_circle = False
+
+                    if (radius < smallest_circle[1]) and valid_circle == True:
+                        smallest_circle = temp_circle
+    
+
+    center_point = smallest_circle[0]
+    radius = smallest_circle[1]
+
+    return center_point, radius
+    
+def set_CMV_14(num_points, datapoints, parameters):
+    """
+        Set CMV_11 based on LIC 11
+        
+        Parameters
+        ----------
+       num_points : (int)
+            Total number of data points
+        datapoints : List[Tuple[float, float]]
+            List of tuples 
+        parameters : (Dict)
+            Contains all the LIC and CMV parameters 
+
+        Returns Bool depending on if LIC 11 is fulfilled
+
+    """
+    if num_points < 5: return False
+
+    e_pts = parameters["EPTS"]
+    f_pts = parameters["FPTS"]
+    area1 = parameters["AREA1"]
+    area2 = parameters["AREA2"]
+    offset1 = e_pts + 1 
+    offset2 = f_pts + 1 
+    cond1 = False 
+    cond2 = False 
+    i = 0
+
+    while i + offset1 + offset2 < num_points and not (cond1 and cond2):
+        p1 = datapoints[i]
+        p2 = datapoints[i+offset1]
+        p3 = datapoints[i+offset1+offset2]
+        v1 = p2-p1
+        v2 = p3-p1
+        triangle_area = np.abs(np.cross(v1,v2))/2
+        cond1 = cond1 or triangle_area > area1
+        cond2 = cond2 or triangle_area < area2
+        i += 1
+    return cond1 and cond2
+
+
+
