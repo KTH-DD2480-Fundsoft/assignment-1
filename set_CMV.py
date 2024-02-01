@@ -115,17 +115,22 @@ def set_CMV_2(num_points, datapoints, parameters):
     epsilon = parameters["epsilon"]
     angle_cond = False
     for i in range(num_points-2):
-        vertex = datapoints[i+1]
+        p1 = datapoints[i]
+        p2 = datapoints[i+1]
+        p3 = datapoints[i+2]
         
         # Cannot form an angle if the first or third point is equal to the vertex
-        if datapoints[i] == vertex or datapoints[i+2] == vertex:
+        if p1 == p2 or p3 == p2:
             continue
-    
-        first_ray = np.array(vertex) - np.array(datapoints[i])
-        second_ray = np.array(vertex) - np.array(datapoints[i+2])
-        
-		# Taken from https://stackoverflow.com/questions/2827393/angles-between-two-n-dimensional-vectors-in-python
-        angle = math.atan2(np.linalg.det([second_ray, first_ray]), np.dot(second_ray, first_ray))
+
+        a = np.sqrt((p1[0] - p2[0])**2 + (p1[1] - p2[1])**2)
+        b = np.sqrt((p3[0] - p2[0])**2 + (p3[1] - p2[1])**2)
+        c = np.sqrt((p3[0] - p1[0])**2 + (p3[1] - p1[1])**2)
+
+        # c^2 = a^2 + b^2 - 2abcos(angle p1p2p3)
+        # angle p1p2p3 = arccos((a^2 + b^2 - c^2) / (2ab)), see https://en.wikipedia.org/wiki/Law_of_cosines
+        angle = np.arccos((a**2 + b**2 - c**2) / (2 * a * b) )
+
         if angle < np.pi - epsilon or angle > np.pi + epsilon:
             angle_cond = True
             break
