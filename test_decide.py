@@ -1,6 +1,7 @@
 import numpy as np
 import unittest
 from LIC_evaluation import *
+from decide import *
 
 class TestDecide(unittest.TestCase):
     def test_lic_4_two_valid_sets(self):
@@ -574,6 +575,33 @@ class TestDecide(unittest.TestCase):
         center_7, radius_7 = smallest_containting_circle(points_7)
         self.assertEqual(center_7,(-4.0,0.0))
         self.assertEqual(radius_7, 3.0)
+
+    def test_compute_FUV(self):
+        pum =   [ [False,   False ,True ,False,True,True,True,True,True,True,True,True,True,True,True]
+                        ,[False,True    ,True ,True ,True,True,True,True,True,True,True,True,True,True,True]
+                        ,[True ,True ,True    ,True ,True,True,True,True,True,True,True,True,True,True,True]
+                        ,[False,True ,True ,True    ,True,True,True,True,True,True,True,True,True,True,True]
+                        ,[True ,True ,True ,True ,True   ,True,True,True,True,True,True,True,True,True,True]
+                        ,[True ,True ,True ,True ,True,True   ,True,True,True,True,True,True,True,True,True]               
+                        ,[True ,True ,True ,True ,True,True,True   ,True,True,True,True,True,True,True,True]
+                        ,[True ,True ,True ,True ,True,True,True,True   ,True,True,True,True,True,True,True]
+                        ,[True ,True ,True ,True ,True,True,True,True,True   ,True,True,True,True,True,True]
+                        ,[True ,True ,True ,True ,True,True,True,True,True,True   ,True,True,True,True,True]
+                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True   ,True,True,True,True]
+                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True   ,True,True,True]
+                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True,True   ,True,True]
+                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True,True,True   ,True]
+                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True,True,True,True   ] ]
+        
+        puv = [True, False, True
+            ,False,True , True
+            ,False,True ,False
+            ,True ,False, True
+            ,False,True ,False]
+        
+        correct_FUV = [False, True, True, True, True, True, True, True, True, True, True, True, True, True, True ]
+        computed_FUV = compute_FUV(pum, puv)
+        self.assertEqual(computed_FUV,correct_FUV)
 
 
 
