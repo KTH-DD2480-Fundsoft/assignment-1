@@ -4,7 +4,7 @@ from enum import Enum
 from numpy import array, float64
 from numpy.typing import NDArray
 from typing import List, Tuple, TypedDict
-from set_CMV import set_CMV
+from set_CMV import *
 
 NUMBER_OF_CONDITIONS = 15
 
@@ -187,10 +187,10 @@ def set_LAUNCH():
 
 
 def decide(puv, lcm, lic_parameters, nr_of_data_points, data_points ):
-    cmv = compute_cmv(puv, lic_parameters, nr_of_data_points, data_points)
-    return does_pum_not_contain_false_element(lcm, cmv)
+    cmv = compute_cmv(lic_parameters, nr_of_data_points, data_points)
+    return does_pum_not_contain_false_element(lcm, cmv, puv)
 
-def compute_cmv(puv, lic_parameters, nr_of_data_points, points):
+def compute_cmv(lic_parameters, nr_of_data_points, points):
     """
         Computes the CMV by evaluating each LIC.
 
@@ -214,36 +214,51 @@ def compute_cmv(puv, lic_parameters, nr_of_data_points, points):
     cmv = [True] * NUMBER_OF_CONDITIONS
     
     # cmv[0] = evaluate_lic_0(lic_parameters[0], nr_of_data_points, points)
+    cmv[0] = set_CMV_0(nr_of_data_points, points, lic_parameters)
     
     # cmv[1] = evaluate_lic_1(lic_parameters[1], nr_of_data_points, points)
+    cmv[1] = set_CMV_1(nr_of_data_points, points, lic_parameters)
     
     # cmv[2] = evaluate_lic_2(lic_parameters[2], nr_of_data_points, points)
+    cmv[2] = set_CMV_2(nr_of_data_points, points, lic_parameters)
     
     # cmv[3] = evaluate_lic_3(lic_parameters[3], nr_of_data_points, points)
+    cmv[3] = set_CMV_3(nr_of_data_points, points, lic_parameters)
     
     # cmv[4] = evaluate_lic_4(lic_parameters[4], nr_of_data_points, points)
+    cmv[4] = set_CMV_4(nr_of_data_points, points, lic_parameters)
     
     # cmv[5] = evaluate_lic_5(lic_parameters[5], nr_of_data_points, points)
+    cmv[5] = set_CMV_5(nr_of_data_points, points, lic_parameters)
     
     # cmv[6] = evaluate_lic_6(lic_parameters[6], nr_of_data_points, points)
+    cmv[6] = set_CMV_6(nr_of_data_points, points, lic_parameters)
     
     # cmv[7] = evaluate_lic_7(lic_parameters[7], nr_of_data_points, points)
+    cmv[7] = set_CMV_7(nr_of_data_points, points, lic_parameters)
     
     # cmv[8] = evaluate_lic_8(lic_parameters[8], nr_of_data_points, points)
+    cmv[8] = set_CMV_8(nr_of_data_points, points, lic_parameters)
     
     # cmv[9] = evaluate_lic_9(lic_parameters[9], nr_of_data_points, points)
+    cmv[9] = set_CMV_9(nr_of_data_points, points, lic_parameters)
     
     # cmv[10] = evaluate_lic_10(lic_parameters[10], nr_of_data_points, points)
+    cmv[10] = set_CMV_10(nr_of_data_points, points, lic_parameters)
     
     # cmv[11] = evaluate_lic_11(lic_parameters[11], nr_of_data_points, points)
+    cmv[11] = set_CMV_11(nr_of_data_points, points, lic_parameters)
     
     # cmv[12] = evaluate_lic_12(lic_parameters[12], nr_of_data_points, points)
+    cmv[12] = set_CMV_12(nr_of_data_points, points, lic_parameters)
     
     # cmv[13] = evaluate_lic_13(lic_parameters[13], nr_of_data_points, points)
+    cmv[13] = set_CMV_13(nr_of_data_points, points, lic_parameters)
     
     # cmv[14] = evaluate_lic_14(lic_parameters[14], nr_of_data_points, points)
+    cmv[14] = set_CMV_14(nr_of_data_points, points, lic_parameters)
 
-    pass
+    return cmv
 
 
 def does_pum_not_contain_false_element(lcm, cmv, puv):
@@ -268,8 +283,7 @@ def does_pum_not_contain_false_element(lcm, cmv, puv):
             True if PUM does not contain a false element which will prevent a launch,
             otherwise False and launch should not occur.
     """
-    """ Sort of pseudo for now, just to convey the idea.
-    nr_of_rows, nr_of_cols = lcm.shape
+    nr_of_rows, nr_of_cols = len(lcm), len(lcm[0])
     for i in range(nr_of_rows):
         # TODO: Potential out of bounds in "puv[i]"?
         if puv[i]:
@@ -283,15 +297,13 @@ def does_pum_not_contain_false_element(lcm, cmv, puv):
                     if truth_value == False:
                         return False
     return True
-    """
-    pass
 
 
 def main():
     parsed_input = handle_input()
-    num_points  : int                      = parsed_input[0]
+    nr_of_data_points  : int               = parsed_input[0]
     data_points : List[NDArray[float64]]   = parsed_input[1]
-    parameters  : Parameters               = parsed_input[2]
+    lic_parameters  : Parameters           = parsed_input[2]
     lcm         : List[List[CONNECTORS]]   = parsed_input[3]
     puv         : List[bool]               = parsed_input[4]
     should_launch = decide(puv, lcm, lic_parameters, nr_of_data_points, data_points)
