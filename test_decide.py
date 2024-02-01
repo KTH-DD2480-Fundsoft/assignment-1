@@ -1,3 +1,4 @@
+import numpy as np
 import set_CMV
 import unittest
 from set_CMV import *
@@ -224,6 +225,34 @@ class TestDecide(unittest.TestCase):
         self.assertFalse(set_CMV_2(len(datapoints_2), datapoints_2, parameters_2))
         self.assertFalse(set_CMV_2(len(datapoints_3), datapoints_3, parameters_3))
         self.assertTrue(set_CMV_2(len(datapoints_4), datapoints_4, parameters_4))
+
+    def test_cmv_12(self):
+        num_points = 11    
+        parameters = { "KPTS" : 3 
+                     , "LENGTH1" : 10.0 
+                     , "LENGTH2" : 1.0 }
+        data_points = [ (0.75,0.0), (1.0,0.0), (1.25,0.0), 
+                        (1.5,0.0), (5.5,0.0), (3.0,0.0),  
+                        (4.0,0.0), (5.0,0.0), (6.0,0.0), 
+                        (7.0,0.0), (15.0,0.0) ]
+        data_points = [np.array(e) for e in data_points]
+        
+        self.assertTrue(set_CMV_12(num_points,data_points,parameters))
+        data_points[10] = np.array((8.0,0.0))
+        self.assertFalse(set_CMV_12(num_points,data_points,parameters))
+
+        num_points = 11    
+        parameters = { "KPTS" : 3 
+                     , "LENGTH1" : 10.0 
+                     , "LENGTH2" : 1.0 }
+        data_points = [ (1.0,0.0), (2.0,0.0), (3.0,0.0), 
+                        (4.0,0.0), (5.0,0.0), (6.0,0.0),  
+                        (7.0,0.0), (8.0,0.0), (9.0,0.0), 
+                        (10.0,0.0), (18.0,0.0) ]
+        data_points = [np.array(e) for e in data_points]
+        self.assertFalse(set_CMV_12(num_points,data_points,parameters))
+        data_points[0] = np.array((4.5,0))
+        self.assertTrue(set_CMV_12(num_points,data_points,parameters))
 
     def test_cmv_5(self):
         # Define test parameters

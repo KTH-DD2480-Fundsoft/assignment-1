@@ -330,11 +330,52 @@ def set_CMV_11(num_points, datapoints, parameters):
             return True
     return False
 
-def set_CMV_12():
-    pass
+def set_CMV_12(num_points, datapoints, parameters):
+    """
+        Set CMV_12 based on LIC 12  
+        
+        Parameters
+        ----------
+        num_points : (int)
+            Total number of data points
+        datapoints : List[NDArray[float]]
+            List of tuples 
+        parameters : (Dict)
+            Contains all the LIC and CMV parameters 
+
+        Returns Bool depending on if LIC 12 is fulfilled
+
+    """
+    if num_points < 3: return False 
+
+    length1 = parameters["LENGTH1"]
+    length2 = parameters["LENGTH2"]
+    offset = parameters["KPTS"] + 1
+    cond1 = False 
+    cond2 = False 
+    i = 0
+    
+    ''' 
+    cond1: True if there is at least one set of two points 
+           seperated by KPTS with a distance between them 
+           greater than LENGTH1 
+    cond2: True if there is at least one set of two points 
+           seperated by KPTS with a distance between them 
+           less than LENGTH2 '''
+    while i + offset < num_points and not (cond1 and cond2):
+        dist  = np.linalg.norm(datapoints[i] - datapoints[i+offset])
+        cond1 = cond1 or (dist > length1) 
+        cond2 = cond2 or (dist < length2)
+        i += 1
+    return cond1 and cond2 
+
+
+
+
+pass
 
 def set_CMV_13():
     pass
 
+def set_CMV_14():
     pass
-
