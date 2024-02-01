@@ -1,27 +1,7 @@
 import numpy as np
 import math
 
-def set_CMV():
-    """
-        A list of the 15 Launch Interceptor Conditions (LIC)
-        
-
-        Parameters
-        ----------
-        parameter1 : (`str`)
-            Description of `parameter1`.
-        parameter2 : (`int`)
-            Description of `parameter2`
-
-        Returns
-        ----------
-        descriptive_name_of_returned_value : (`int`)
-            Description on what is returned
-    """
-    # set_CMV_0()
-    pass
-
-def set_CMV_0(num_points, datapoints, parameters):
+def evaluate_LIC_0(num_points, datapoints, parameters):
     """
         Set CMV_0 based on LIC 0
         
@@ -46,7 +26,7 @@ def set_CMV_0(num_points, datapoints, parameters):
             return True    
     return False
 
-def set_CMV_1(numpoints, datapoints, parameters):
+def evaluate_LIC_1(numpoints, datapoints, parameters):
 	"""
 	Set CMV_1 based on LIC 1
 	
@@ -111,7 +91,7 @@ def set_CMV_1(numpoints, datapoints, parameters):
 			break
 	return radius_cond
 
-def set_CMV_2(num_points, datapoints, parameters):
+def evaluate_LIC_2(num_points, datapoints, parameters):
     epsilon = parameters["epsilon"]
     angle_cond = False
     for i in range(num_points-2):
@@ -136,7 +116,7 @@ def set_CMV_2(num_points, datapoints, parameters):
             break
     return angle_cond
 
-def set_CMV_3(num_points, data_points, parameters):
+def evaluate_LIC_3(num_points, data_points, parameters):
     ''' Returns true iff there exists three consecutive
         points in 'data_points' that form a triangle 
         of size greater than parameters["AREA1"]. '''
@@ -150,7 +130,7 @@ def set_CMV_3(num_points, data_points, parameters):
         if a > area: return True
     return False
 
-def set_CMV_4(num_points, data_points, parameters):
+def evaluate_LIC_4(num_points, data_points, parameters):
     ''' Returns true iff at least one set of qpts consecutive points
         occupy more than quads quadrants, and the following is true:
         (2 ≤ Q_PTS ≤ NUMPOINTS), (1 ≤ QUADS ≤ 3) '''
@@ -182,13 +162,13 @@ def set_CMV_4(num_points, data_points, parameters):
 			
     return False # condition not met
 
-def set_CMV_5(num_points, data_points, parameters):
+def evaluate_LIC_5(num_points, data_points, parameters):
     for i in range(0, num_points-1):
         if (data_points[i][0] > data_points[i+1][0]):
             return True # found two consecutive points such that X[i] > X[+1]
     return False # found no satisfactory points
 
-def set_CMV_6(num_points, data_points, parameters):
+def evaluate_LIC_6(num_points, data_points, parameters):
     """
         Evaluates the truth value of the LIC 6 given the parameters.
         
@@ -267,7 +247,7 @@ def distance_from_line(point, start_point, end_point):
     # Perpendicular distance within the segment
     return np.linalg.norm(np.cross(line_vec, point_vec)) / np.linalg.norm(line_vec)
 
-def set_CMV_7(num_points, datapoints, parameters):
+def evaluate_LIC_7(num_points, datapoints, parameters):
     k_pts = parameters["kpts"]
     length1 = parameters["length1"]
     coordinates = np.array(datapoints)
@@ -287,7 +267,7 @@ def set_CMV_7(num_points, datapoints, parameters):
 
     return cmv_cond
 
-def set_CMV_8(num_points, datapoints, parameters):
+def evaluate_LIC_8(num_points, datapoints, parameters):
     a_pts = parameters["apts"]
     b_pts = parameters["bpts"]
     radius_1 = parameters["radius1"]
@@ -308,7 +288,7 @@ def set_CMV_8(num_points, datapoints, parameters):
             break
     return cmv_cond
 
-def set_CMV_9(num_points, datapoints, parameters):
+def evaluate_LIC_9(num_points, datapoints, parameters):
     cpts = parameters['cpts']
     dpts = parameters['dpts']
     epsilon = parameters['epsilon']
@@ -355,7 +335,7 @@ def set_CMV_9(num_points, datapoints, parameters):
                       return True
     return False
 
-def set_CMV_10(num_points, datapoints, parameters):
+def evaluate_LIC_10(num_points, datapoints, parameters):
     """
         Set CMV_10 based on LIC 10
 
@@ -401,7 +381,7 @@ def set_CMV_10(num_points, datapoints, parameters):
 
     
 
-def set_CMV_11(num_points, datapoints, parameters):
+def evaluate_LIC_11(num_points, datapoints, parameters):
     """
         Set CMV_11 based on LIC 11
         
@@ -429,7 +409,7 @@ def set_CMV_11(num_points, datapoints, parameters):
             return True
     return False
 
-def set_CMV_12(num_points, datapoints, parameters):
+def evaluate_LIC_12(num_points, datapoints, parameters):
     """
         Set CMV_12 based on LIC 12  
         
@@ -472,7 +452,7 @@ def set_CMV_12(num_points, datapoints, parameters):
 
 
 
-def set_CMV_13(num_points, datapoints, parameters):
+def evaluate_LIC_13(num_points, datapoints, parameters):
     """
         Set CMV_13 based on LIC 13
 
@@ -616,7 +596,7 @@ def smallest_containting_circle(points):
 
     return center_point, radius
     
-def set_CMV_14(num_points, datapoints, parameters):
+def evaluate_LIC_14(num_points, datapoints, parameters):
     """
         Set CMV_11 based on LIC 11
         
