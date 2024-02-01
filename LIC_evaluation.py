@@ -635,6 +635,3 @@ def evaluate_LIC_14(num_points, datapoints, parameters):
         cond2 = cond2 or triangle_area < area2
         i += 1
     return cond1 and cond2
-
-
-
