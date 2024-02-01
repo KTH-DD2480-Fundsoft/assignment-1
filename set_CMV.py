@@ -211,8 +211,26 @@ def set_CMV_7(num_points, datapoints, parameters):
 
     return cmv_cond
 
-def set_CMV_8():
-    pass
+def set_CMV_8(num_points, datapoints, parameters):
+    a_pts = parameters["apts"]
+    b_pts = parameters["bpts"]
+    radius_1 = parameters["radius1"]
+    cmv_cond = False
+
+    if num_points < 5:
+        return False 
+
+    # This makes it so p_3 in the last iteration has index num_points - 1 
+    num_triplets = num_points - a_pts - b_pts - 2
+    for i in range(num_triplets):
+        p_1 = datapoints[i]
+        p_2 = datapoints[i + a_pts + 1]
+        p_3 = datapoints[i + a_pts + b_pts + 2]
+        
+        if smallest_containting_circle([p_1,p_2,p_3])[1] > radius_1:
+            cmv_cond = True
+            break
+    return cmv_cond
 
 def set_CMV_9(num_points, datapoints, parameters):
     cpts = parameters['cpts']
