@@ -523,11 +523,11 @@ def smallest_containting_circle(points):
     # Check if two out of three points are the same
     if np.array_equal(points[0],points[1]) or np.array_equal(points[0], points[2]) or np.array_equal(points[1], points[2]):
         indexes = []
-        if points[0] == points[1]:
+        if np.array_equal(points[0], points[1]):
             indexes = [0,2]
-        if points[0] == points[2]:
+        if np.array_equal(points[0], points[2]):
             indexes = [0,1]
-        if points[1] == points[2]:
+        if np.array_equal(points[1], points[2]):
             indexes = [0,2]
         temp = []
         for index in indexes:
