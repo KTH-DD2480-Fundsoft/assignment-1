@@ -83,130 +83,6 @@ parsed_input_1 = {
 # System Test 2
 # Given inputs
 parsed_input_2 = {
-    "numpoints" : 100,
-    "datapoints" : [ 
-        [-41.792822536123026, 529.1698346564233],
-        [-80.49920040398172, -260.3694841809747],
-        [248.0292103014608, 611.1208536393367]],
-
-    "parameters" : {
-        "LENGTH1"   : 1.0,
-        "RADIUS1"   : 1.0,
-        "EPSILON"   : 0.1,
-        "AREA1"     : 1.0, 
-        "QPTS"      : 10,
-        "QUADS"     : 10,
-        "DIST"      : 1.0,
-        "NPTS"      : 10,
-        "KPTS"      : 10,
-        "APTS"      : 10,
-        "BPTS"      : 10, 
-        "CPTS"      : 10, 
-        "DPTS"      : 10, 
-        "EPTS"      : 10, 
-        "FPTS"      : 10, 
-        "GPTS"      : 10, 
-        "LENGTH2"   : 1.0,
-        "RADIUS2"   : 1.0,
-        "AREA2"     : 1.0
-    },
-    "LCM" : [ [CONNECTORS.ANDD   ,CONNECTORS.ANDD   ,CONNECTORS.ORR,    CONNECTORS.ANDD    ,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.ANDD   ,CONNECTORS.ANDD   ,CONNECTORS.ORR    ,CONNECTORS.ORR    ,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.ORR    ,CONNECTORS.ORR    ,CONNECTORS.ANDD   ,CONNECTORS.ANDD   ,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.ANDD   ,CONNECTORS.ORR    ,CONNECTORS.ANDD   ,CONNECTORS.ANDD   ,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED]
-            , [CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED] ],
-
-    "PUV" : [True, False, True
-            ,False,True , True
-            ,False,True ,False
-            ,True ,False, True
-            ,False,True ,False]
-}
-
-# System Test 3
-# Given inputs
-parsed_input_3 = {
-    "numpoints" : 20,
-    "datapoints" : [ 
-        [0.0, 0.0],
-        [100.0, 100.0],
-        [50.0, 50.0],
-        [0.0,1.0],
-        [1.0,0.0],
-        [0.0,-2.0],
-        [1.0,1.0],
-        [11.0,1.0],
-        [1.0,11.0],
-        [-1.0,-1.0],
-        [1.0,-1.0],
-        [200.0,200.0],
-        [2.0,11.0],
-        [50,55],
-        [6.7,42],
-        [2.0,0.4],
-        [0.0,0.5],
-        [5.0,3.0], 
-        [0.5,0.0],
-        [10.0,30.0]],
-
-    "parameters" : {
-        "length1"   : 100.0,
-        "radius1"   : 5.0,
-        "epsilon"   : math.pi/3,
-        "area1"     : 30.0, 
-        "qpts"      : 3,
-        "quads"     : 3,
-        "dist"      : 50.0,
-        "npts"      : 10,
-        "kpts"      : 10,
-        "apts"      : 5,
-        "bpts"      : 2, 
-        "cpts"      : 1, 
-        "dpts"      : 3, 
-        "epts"      : 6, 
-        "fpts"      : 3, 
-        "gpts"      : 10, 
-        "length2"   : 1.0,
-        "radius2"   : 1.0,
-        "area2"     : 1.0
-    },
-    "LCM" : [ 
-              [CONNECTORS.NOTUSED,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.NOTUSED,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.NOTUSED,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
-              [CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED],
-              [CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED],
-              [CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED],
-             ],
-    "PUV" : [True, True, True
-            ,True, True, True
-            ,True, True, True
-            ,True, True, True
-            ,True, True, True]
-}
-
-# System Test 4
-# Given inputs
-parsed_input_4 = {
     "numpoints" : 53,
     "datapoints" : [
     [0, 0], # CMV 0, CMV 1, CMV 11
@@ -309,6 +185,78 @@ parsed_input_4 = {
             ,True,True ,True]
 }
 
+
+# System Test 3
+# Given inputs
+parsed_input_3 = {
+    "numpoints" : 20,
+    "datapoints" : [ 
+        [0.0, 0.0],
+        [100.0, 100.0],
+        [50.0, 50.0],
+        [0.0,1.0],
+        [1.0,0.0],
+        [0.0,-2.0],
+        [1.0,1.0],
+        [11.0,1.0],
+        [1.0,11.0],
+        [-1.0,-1.0],
+        [1.0,-1.0],
+        [200.0,200.0],
+        [2.0,11.0],
+        [50,55],
+        [6.7,42],
+        [2.0,0.4],
+        [0.0,0.5],
+        [5.0,3.0], 
+        [0.5,0.0],
+        [10.0,30.0]],
+
+    "parameters" : {
+        "length1"   : 100.0,
+        "radius1"   : 5.0,
+        "epsilon"   : math.pi/3,
+        "area1"     : 30.0, 
+        "qpts"      : 3,
+        "quads"     : 3,
+        "dist"      : 50.0,
+        "npts"      : 10,
+        "kpts"      : 10,
+        "apts"      : 5,
+        "bpts"      : 2, 
+        "cpts"      : 1, 
+        "dpts"      : 3, 
+        "epts"      : 6, 
+        "fpts"      : 3, 
+        "gpts"      : 10, 
+        "length2"   : 1.0,
+        "radius2"   : 1.0,
+        "area2"     : 1.0
+    },
+    "LCM" : [ 
+              [CONNECTORS.NOTUSED,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.NOTUSED,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.NOTUSED,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ANDD,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR],
+              [CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED],
+              [CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED],
+              [CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.ORR,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED,CONNECTORS.NOTUSED],
+             ],
+    "PUV" : [True, True, True
+            ,True, True, True
+            ,True, True, True
+            ,True, True, True
+            ,True, True, True]
+}
+
 ####################################################################################################################
 # CORRECT VALUES FOR TEST 1 THAT ACT AS COMPUTATIONAL CHECKPOINTS
 
@@ -341,31 +289,6 @@ LAUNCH_correct_test_1 = False
 ####################################################################################################################
 
 # CORRECT VALUES FOR TEST 2 THAT ACT AS COMPUTATIONAL CHECKPOINTS
-CMV_correct_test_2 = [ False, True , True , True , False
-               ,False, False, False, False, False
-               ,False, False, False, False, False]
-
-PUM_correct_test_2 =   [ [0,   False ,True ,False,True,True,True,True,True,True,True,True,True,True,True]
-                        ,[False,0    ,True ,True ,True,True,True,True,True,True,True,True,True,True,True]
-                        ,[True ,True ,0    ,True ,True,True,True,True,True,True,True,True,True,True,True]
-                        ,[False,True ,True ,0    ,True,True,True,True,True,True,True,True,True,True,True]
-                        ,[True ,True ,True ,True ,0   ,True,True,True,True,True,True,True,True,True,True]
-                        ,[True ,True ,True ,True ,True,0   ,True,True,True,True,True,True,True,True,True]               
-                        ,[True ,True ,True ,True ,True,True,0   ,True,True,True,True,True,True,True,True]
-                        ,[True ,True ,True ,True ,True,True,True,0   ,True,True,True,True,True,True,True]
-                        ,[True ,True ,True ,True ,True,True,True,True,0   ,True,True,True,True,True,True]
-                        ,[True ,True ,True ,True ,True,True,True,True,True,0   ,True,True,True,True,True]
-                        ,[True ,True ,True ,True ,True,True,True,True,True,True,0   ,True,True,True,True]
-                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True,0   ,True,True,True]
-                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True,0   ,True,True]
-                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True,True,0   ,True]
-                        ,[True ,True ,True ,True ,True,True,True,True,True,True,True,True,True,True,0   ] ]
-
-FUV_correct_test_2 = [False, True, True, True, True
-                    ,True, True, True, True, True
-                    ,True, True, True, True, True]
-
-LAUNCH_correct_test_2 = False
 
 ####################################################################################################################
 # CORRECT VALUES FOR TEST 3 THAT ACT AS COMPUTATIONAL CHECKPOINTS
@@ -401,10 +324,9 @@ parameters_test_1   = parsed_input_1["parameters"]
 lcm_test_1          = parsed_input_1["LCM"]
 puv_test_1          = parsed_input_1["PUV"]
 
-
 # Test 2 inputs
 num_points_test_2   = parsed_input_2["numpoints"]
-data_points_test_2  = parsed_input_2["datapoints"]
+data_points_test_2  = [np.array(p) for p in parsed_input_2["datapoints"]]
 parameters_test_2   = parsed_input_2["parameters"]
 lcm_test_2          = parsed_input_2["LCM"]
 puv_test_2          = parsed_input_2["PUV"]
@@ -416,18 +338,6 @@ data_points_test_3  = [np.array(p) for p in parsed_input_3["datapoints"]]
 parameters_test_3   = parsed_input_3["parameters"]
 lcm_test_3          = parsed_input_3["LCM"]
 puv_test_3          = parsed_input_3["PUV"]
-
-# Test 4 inputs
-num_points_test_4   = parsed_input_4["numpoints"]
-data_points_test_4  = [np.array(p) for p in parsed_input_4["datapoints"]]
-parameters_test_4   = parsed_input_4["parameters"]
-lcm_test_4          = parsed_input_4["LCM"]
-puv_test_4          = parsed_input_4["PUV"]
-
-calculated_cmv = [ False, True , True , True , False
-            ,False, False, False, False, False
-            ,False, False, False, False, False]
-
 
 
 # Test functions
@@ -469,29 +379,23 @@ class TestDecide(unittest.TestCase):
         # Tests if the final launch condition is correct
         calculated_LAUNCH = compute_LAUNCH(calculated_FUV)
         self.assertEqual(calculated_LAUNCH, LAUNCH_correct_test_1), "test_1: Calculated LAUNCH not the same as the correct test_1 version"
-
-
-
     
     def test_2(self):
-        # calculated_cmv should be a 1x15 vector with bools as elements
-        
-        # Tests if the computed cmv vector is the same as the expected cmv vector for test2
+        """ 
+        Tests a set of data points which should satisfy every LIC condition, 
+        where the LCM only has ANDD values, and the PUV has true values. This should
+        result in all true values in the CMV, PUM, FUV and launch.
+        """      
         calculated_cmv = compute_cmv(parameters_test_2, num_points_test_2, data_points_test_2)
-        self.assertEqual(calculated_cmv, CMV_correct_test_2), "test_2: Calculated cmv not the same as the correct test_2 version"
+        calculated_PUM = compute_PUM(lcm_test_2, calculated_cmv, lcm_test_2)
+        calculated_FUV = compute_FUV(calculated_PUM, puv_test_2)
+        calculated_launch = compute_LAUNCH(calculated_FUV)
 
-        # Tests if the computed PUM matrix is the same as the expected PUM matrix for test2
-        calculated_PUM = compute_PUM(lcm_test_2, calculated_cmv)
-        self.assertEqual(calculated_PUM, PUM_correct_test_2), "test_2: Calculated PUM not the same as the correct test_2 version"
-
-        # Tests if the computed FUV vector is the same as the expected FUV vector for test2
-        calculated_FUV = compute_FUV(puv_test_2, calculated_PUM)
-        self.assertEqual(calculated_FUV, FUV_correct_test_2), "test_2: Calculated FUV not the same as the correct test_2 version"
-
-        # Test if 
-        calculated_LAUNCH = compute_LAUNCH()
-        self.assertEqual(calculated_LAUNCH, LAUNCH_correct_test_2), "test_2: Calculated LAUNCH not the same as the correct test_2 version"
-        
+        self.assertTrue(all(calculated_cmv)) # Ensure that all LICs are true
+        self.assertTrue(all([x for xs in calculated_PUM for x in xs])) # Ensure that all values are true in the PUM
+        self.assertTrue(all(calculated_FUV))
+        self.assertTrue(calculated_launch)
+    
     def test_3(self):
         # calculated_cmv should be a 1x15 vector with bools as elements
         
@@ -511,23 +415,7 @@ class TestDecide(unittest.TestCase):
         # Test if 
         calculated_LAUNCH = compute_LAUNCH(calculated_FUV)
         self.assertEqual(calculated_LAUNCH, LAUNCH_correct_test_3), "test_3: Calculated LAUNCH not the same as the correct test_3 version"
-
-    def test_system_only_true_LIC(self):  
-        """ 
-        Tests a set of data points which should satisfy every LIC condition, 
-        where the LCM only has ANDD values, and the PUV has true values. This should
-        result in all true values in the CMV, PUM, FUV and launch.
-        """      
-        calculated_cmv = compute_cmv(parameters_test_4, num_points_test_4, data_points_test_4)
-        calculated_PUM = compute_PUM(lcm_test_4, calculated_cmv, lcm_test_4)
-        calculated_FUV = compute_FUV(calculated_PUM, puv_test_4)
-        calculated_launch = compute_LAUNCH(calculated_FUV)
-
-        self.assertTrue(all(calculated_cmv)) # Ensure that all LICs are true
-        self.assertTrue(all([x for xs in calculated_PUM for x in xs])) # Ensure that all values are true in the PUM
-        self.assertTrue(all(calculated_FUV))
-        self.assertTrue(calculated_launch)
-
+    
 
 if __name__ == '__main__':
     unittest.main()
