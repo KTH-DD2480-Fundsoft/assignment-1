@@ -382,5 +382,44 @@ pass
 def set_CMV_13():
     pass
 
-def set_CMV_14():
-    pass
+def set_CMV_14(num_points, datapoints, parameters):
+    """
+        Set CMV_11 based on LIC 11
+        
+        Parameters
+        ----------
+       num_points : (int)
+            Total number of data points
+        datapoints : List[Tuple[float, float]]
+            List of tuples 
+        parameters : (Dict)
+            Contains all the LIC and CMV parameters 
+
+        Returns Bool depending on if LIC 11 is fulfilled
+
+    """
+    if num_points < 5: return False
+
+    e_pts = parameters["EPTS"]
+    f_pts = parameters["FPTS"]
+    area1 = parameters["AREA1"]
+    area2 = parameters["AREA2"]
+    offset1 = e_pts + 1 
+    offset2 = f_pts + 1 
+    cond1 = False 
+    cond2 = False 
+    i = 0
+
+    while i + offset1 + offset2 < num_points and not (cond1 and cond2):
+        p1 = datapoints[i]
+        p2 = datapoints[i+offset1]
+        p3 = datapoints[i+offset1+offset2]
+        v1 = p2-p1
+        v2 = p3-p1
+        triangle_area = np.abs(np.cross(v1,v2))/2
+        cond1 = cond1 or triangle_area > area1
+        cond2 = cond2 or triangle_area < area2
+        i += 1
+    return cond1 and cond2
+
+
