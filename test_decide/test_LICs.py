@@ -1,7 +1,7 @@
 import numpy as np
 import unittest
-from LIC_evaluation import *
-from decide import *
+from decide.LIC_evaluation import *
+from decide.decide import *
 
 class TestDecide(unittest.TestCase):
     def test_lic_4_two_valid_sets(self):

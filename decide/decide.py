@@ -4,7 +4,7 @@ from enum import Enum
 from numpy import array, float64
 from numpy.typing import NDArray
 from typing import List, Tuple, TypedDict
-from LIC_evaluation import *
+from decide.LIC_evaluation import *
 
 NUMBER_OF_CONDITIONS = 15
 
@@ -200,11 +200,25 @@ def compute_LAUNCH(fuv):
     """
     return all(fuv)
 
-def decide(puv, lcm, lic_parameters, nr_of_data_points, data_points ):
+def decide():
+    
+    # Read input from json
+    parsed_input = handle_input()
+    nr_of_data_points  : int               = parsed_input[0]
+    data_points : List[NDArray[float64]]   = parsed_input[1]
+    lic_parameters  : Parameters           = parsed_input[2]
+    lcm         : List[List[CONNECTORS]]   = parsed_input[3]
+    puv         : List[bool]               = parsed_input[4]
+    
+    # Compute launch logic and print decision
     cmv = compute_cmv(lic_parameters, nr_of_data_points, data_points)
     pum = compute_PUM(cmv, puv, lcm)
     fuv = compute_FUV(pum, puv)
-    return compute_LAUNCH(fuv)  #does_pum_not_contain_false_element(lcm, cmv, puv)
+
+    if compute_LAUNCH(fuv):
+        print("YES")
+    else:
+        print("NO")
 
 def compute_cmv(lic_parameters, nr_of_data_points, points):
     """
@@ -315,19 +329,4 @@ def does_pum_not_contain_false_element(lcm, cmv, puv):
     return True
 
 
-def main():
-    parsed_input = handle_input()
-    nr_of_data_points  : int               = parsed_input[0]
-    data_points : List[NDArray[float64]]   = parsed_input[1]
-    lic_parameters  : Parameters           = parsed_input[2]
-    lcm         : List[List[CONNECTORS]]   = parsed_input[3]
-    puv         : List[bool]               = parsed_input[4]
-    should_launch = decide(puv, lcm, lic_parameters, nr_of_data_points, data_points)
-    if should_launch:
-        print("YES")
-    else:
-        print("NO")
-
-if __name__ == "__main__":
-    main()
 
